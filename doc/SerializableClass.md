@@ -41,6 +41,8 @@ Example:
         }
     });
 
+    SerializableClass.$register(Demo);        // Register the class (allows automatic unserialization)
+
 
 ## Unserialization
 
@@ -57,6 +59,8 @@ or the `unserialize()` method:
         ...  // your data
     });
 
+__NOTE:__ There is also a `SerializableClass.$unserialize()` static method that can unserialize any registered `SerializableClass`.
+
 
 ## Serialization
 
@@ -70,9 +74,6 @@ To serialize, just call the `serialize()` method:
 
 * custom serializer `"@serializer name"` class?
 * no direct references/ solution (`"@ref"`)?
-* register classes
-* $unserialize
-
 
     SerializableClass.$addSerializer("name", {
         serialize: function(data) {

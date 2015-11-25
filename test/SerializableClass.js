@@ -27,7 +27,7 @@ describe("SerializableClass", function() {
         }
     });
 
-    it("can deserialize values passed to the constructor", function() {
+    it("can deserialize values passed to the constructor (__init__)", function() {
         var test = new TestClass({
             foo: "bar",
             prop1: 42,
@@ -41,7 +41,7 @@ describe("SerializableClass", function() {
         expect(test.prop4).to.equal(45);
     });
 
-    it("can serialize itself", function() {
+    it("can serialize itself (serialize)", function() {
         var test = new TestClass({
             foo: "bar",
             prop1: 42,
@@ -57,7 +57,7 @@ describe("SerializableClass", function() {
         });
     });
 
-    it("can unserialize itself", function() {
+    it("can unserialize itself (unserialize)", function() {
         var test = new TestClass();
 
         expect(test.unserialize.bind(test, {
@@ -86,5 +86,20 @@ describe("SerializableClass", function() {
         expect(test.prop2).to.equal(2);
         expect(test.prop3).to.equal(333);
         expect(test.prop4).to.be(undefined);
+    });
+
+    it("can unserialize any class derivated from SerializableClass (SC.$register/SC.$unserialize)", function() {
+        var data = {
+            __name__: "TestClass",
+            id: "testid",
+            prop3: 333
+        };
+        expect(SerializableClass.$unserialize.bind(null, data)).to.throwException(/UnreferencedSerializableClass/);
+
+        SerializableClass.$register(TestClass);
+        var test = SerializableClass.$unserialize(data);
+
+        expect(test instanceof TestClass).to.be.ok();
+        expect(test.serialize()).to.eql(data);
     });
 });
