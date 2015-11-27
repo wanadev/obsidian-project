@@ -44,7 +44,9 @@ Example:
     SerializableClass.$register(Demo);        // Register the class (allows automatic unserialization)
 
 
-## Unserialization
+## Serialization / Unserialization
+
+### Unserialization
 
 To Unserialize, you can use the constructor:
 
@@ -62,14 +64,14 @@ or the `unserialize()` method:
 __NOTE:__ There is also a `SerializableClass.$unserialize()` static method that can unserialize any registered `SerializableClass`.
 
 
-## Serialization
+### Serialization
 
 To serialize, just call the `serialize()` method:
 
     var data = demo.serialize();
 
 
-## Custom Serializers
+### Custom Serializers
 
 If your class contains serializable properties that are not built-in types (`String`, `Number`, `Boolean`, `Object` and `Array`),
 you have to define custom serialization / unserialization functions:
@@ -97,6 +99,11 @@ And then you have to annotates all properties that will require your custom seri
     }
 
 __NOTE:__ There is a built in serializer for `SerializableClass`. to use it, just add the `"@serializer serializableClass"` annotation to your property.
+
+
+## Clone
+
+To clon a class, just call the `clone` method of the class;
 
 
 [abitbol]: https://github.com/wanadev/abitbol

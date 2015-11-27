@@ -150,4 +150,47 @@ describe("SerializableClass", function() {
         expect(unserialized instanceof Class1).to.be.ok();
         expect(unserialized.class2 instanceof Class2).to.be.ok();
     });
+
+    it("can clone itself (clone)", function() {
+        var test = new TestClass({
+            prop3: "hello"
+        });
+
+        var test2 = test.clone();
+
+        expect(test2 instanceof TestClass).to.be.ok();
+        expect(test2.prop3).to.equal(test.prop3);
+        expect(test2.id).not.to.equal(test.id);
+    });
+
+    it.skip("makes deep copies of object/array properties", function() {
+        var Class1 = SerializableClass.$extend({
+            getObject: function() {
+                return this.$data.object;
+            },
+            setObject: function(o) {
+                this.$data.object = o;
+            },
+            getArray: function() {
+                return this.$data.array;
+            },
+            setArray: function(a) {
+                this.$data.array = a;
+            }
+        });
+
+        var c = new Class1({
+            object: {"a": "foo"},
+            array: [1, 2, 3]
+        });
+
+        var c2 = c.clone();
+
+        expect(c2.object).to.eql(c.object);
+        expect(c2.object).not.to.be(c.object);
+        expect(c2.array).to.eql(c.array);
+        expect(c2.array).not.to.be(c.array);
+    });
+
+
 });
