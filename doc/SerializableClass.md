@@ -17,7 +17,7 @@ Example:
             this.$data = {};                  // Default values for computed properties
             this.$super(params);              // Call the super constructor to apply given values
             ...                               // Any other initialization code you need
-        }
+        },
 
         getMyProp: function() {               // this.myProp: serialized propery (getter + setter)
             return this.$data.myProp;
@@ -69,27 +69,34 @@ To serialize, just call the `serialize()` method:
     var data = demo.serialize();
 
 
+## Custom Serializers
 
-## TODO
+If your class contains serializable properties that are not built-in types (`String`, `Number`, `Boolean`, `Object` and `Array`),
+you have to define custom serialization / unserialization functions:
 
-* custom serializer `"@serializer name"` class?
-* no direct references/ solution (`"@ref"`)?
-
-    SerializableClass.$addSerializer("name", {
+    SerializableClass.$addSerializer("serializerName", {
         serialize: function(data) {
+            // ...
+            return serializedData;
         },
         unserialize: function(data) {
+            // ...
+            return unserializedData;
         }
     });
 
+And then you have to annotates all properties that will require your custom serializer:
 
-    getFoo: function() {
-        "@ref";
+    getFoobar: function() {
+        "@serializer serializerName";
+        // ...
     },
 
-    setFoo: function() {
-        "@ref";
+    setFoobar: function(value) {
+        // ...
     }
+
+__NOTE:__ There is a built in serializer for `SerializableClass`. to use it, just add the `"@serializer serializableClass"` annotation to your property.
 
 
 [abitbol]: https://github.com/wanadev/abitbol

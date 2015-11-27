@@ -102,4 +102,52 @@ describe("SerializableClass", function() {
         expect(test instanceof TestClass).to.be.ok();
         expect(test.serialize()).to.eql(data);
     });
+
+    it("can use custom serializers", function() {
+        var Class1 = SerializableClass.$extend({
+            __name__: "Class1",
+            getClass2: function() {
+                "@serializer serializableClass";
+                return this.$data.class2;
+            },
+            setClass2: function(c) {
+                this.$data.class2 = c;
+            }
+        });
+
+        var Class2 = SerializableClass.$extend({
+            __name__: "Class2",
+            getFoo: function() {
+                return 42;
+            },
+            setFoo: function() {}
+        });
+
+        SerializableClass.$register(Class1);
+        SerializableClass.$register(Class2);
+
+        var c1 = new Class1({
+            id: "aaa",
+            class2: new Class2({
+                id: "bbb"
+            })
+        });
+
+        var serialized = c1.serialize();
+
+        expect(serialized).to.eql({
+            __name__: "Class1",
+            id: "aaa",
+            class2: {
+                __name__: "Class2",
+                id: "bbb",
+                foo: 42
+            }
+        });
+
+        var unserialized = SerializableClass.$unserialize(serialized);
+
+        expect(unserialized instanceof Class1).to.be.ok();
+        expect(unserialized.class2 instanceof Class2).to.be.ok();
+    });
 });
