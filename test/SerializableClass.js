@@ -163,8 +163,9 @@ describe("SerializableClass", function() {
         expect(test2.id).not.to.equal(test.id);
     });
 
-    it.skip("makes deep copies of object/array properties", function() {
+    it("makes deep copies of object/array properties", function() {
         var Class1 = SerializableClass.$extend({
+            __name__: "Class1",
             getObject: function() {
                 return this.$data.object;
             },
@@ -178,6 +179,8 @@ describe("SerializableClass", function() {
                 this.$data.array = a;
             }
         });
+
+        SerializableClass.$register(Class1);
 
         var c = new Class1({
             object: {"a": "foo"},

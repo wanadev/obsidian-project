@@ -106,4 +106,11 @@ __NOTE:__ There is a built in serializer for `SerializableClass`. to use it, jus
 To clon a class, just call the `clone` method of the class;
 
 
+## Trouble shooting
+
+* Check your class have its `__name__` attribute defined to something unique
+* Check you have registered your class with `SerializableClass.$register(YourClass)`
+* Check you have no circular references into your classes
+
+
 [abitbol]: https://github.com/wanadev/abitbol
