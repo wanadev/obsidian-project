@@ -14,7 +14,7 @@ Example:
         __name__: "Demo",                     // Must be set to the class name
 
         __init__: function(params) {          // The constructor takes an object containing values for computed properties (optional)
-            this.$data = {};                  // Default values for computed properties
+            this.$data.foo = "bar";           // Default values for computed properties
             this.$super(params);              // Call the super constructor to apply given values
             ...                               // Any other initialization code you need
         },
