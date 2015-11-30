@@ -4,7 +4,7 @@
 
 * Serialize/Unserialize all computed properties that have a getter and a setter,
 * Skip properties annotatated with `"@serializable false"`.
-* **TODO** ~~Use custom serialization function for specific properties.~~
+* Use custom serialization function for specific properties.
 
 Example:
 
