@@ -67,6 +67,66 @@ describe("ProjectManager", function() {
             expect(project.metadata).to.eql({hello: "world"});
             expect(project.wprjOptions.type).to.equal("FOOBARBAZ");
         });
+
+    });
+
+    describe("LAYERS", function() {
+
+        it("can add one or more layers", function() {
+            var project = new ProjectManager();
+
+            project.addLayers("layer1");
+            expect(project.layers).to.only.have.keys("layer1");
+
+            project.addLayers(["layer2", "layer3"]);
+            expect(project.layers).to.only.have.keys("layer1", "layer2", "layer3");
+
+            project.addLayers("layer4", "layer5");
+            expect(project.layers).to.only.have.keys("layer1", "layer2", "layer3", "layer4", "layer5");
+
+            project.addLayers("layer6", ["layer7"]);
+            expect(project.layers).to.only.have.keys("layer1", "layer2", "layer3", "layer4", "layer5", "layer6", "layer7");
+        });
+
+        it("can remove one or more layers (with contained structures)", function() {
+            var project = new ProjectManager();
+            project.addLayers("layer1", "layer2", "layer3", "layer4", "layer5", "layer6", "layer7");
+
+            project.removeLayers("layer1");
+            expect(project.layers).to.only.have.keys("layer2", "layer3", "layer4", "layer5", "layer6", "layer7");
+
+            project.removeLayers(["layer2", "layer3"]);
+            expect(project.layers).to.only.have.keys("layer4", "layer5", "layer6", "layer7");
+
+            project.removeLayers("layer4", "layer5");
+            expect(project.layers).to.only.have.keys("layer6", "layer7");
+
+            project.removeLayers("layer6", "layer7");
+            expect(project.layers).to.be.empty();
+
+            // TODO test with layer that contains structures
+        });
+
+        it("can return a layer by name (or an empty array if th elayer does not exist)", function() {
+            var project = new ProjectManager();
+            expect(project.getLayer("foobar")).to.be.an(Array);
+            expect(project.getLayer("foobar")).to.be.empty();
+
+            project.addLayers("layer1");
+            expect(project.getLayer("layer1")).to.be.an(Array);
+            expect(project.getLayer("layer1")).to.be.empty();
+            project.$data.layers.layer1.push("foo");
+            expect(project.getLayer("layer1").length).to.equal(1);
+        });
+
+        it("has an empty layer object on new projects", function() {
+            var project = new ProjectManager();
+            expect(project.layers).to.be.empty();
+            project.addLayers("foo");
+            project.newEmptyProject();
+            expect(project.layers).to.be.empty();
+        });
+
     });
 
 });
