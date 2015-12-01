@@ -2,6 +2,7 @@
 
 var expect = require("expect.js");
 var ProjectManager = require("../lib/ProjectManager.js");
+var Structure = require("../lib/Structure.js");
 
 describe("ProjectManager", function() {
 
@@ -125,6 +126,41 @@ describe("ProjectManager", function() {
             project.addLayers("foo");
             project.newEmptyProject();
             expect(project.layers).to.be.empty();
+        });
+
+    });
+
+    describe("STRUCTURES", function() {
+
+        it("can add/remove a structure to/from any layer", function() {
+            var project = new ProjectManager();
+            var structure = new Structure();
+
+            project.addStructure(structure);
+
+            expect(structure.project).to.be(project);
+            expect(project.structures[structure.id]).to.be(structure);
+            expect(structure.layer).to.be(project.layers.default);
+            expect(project.layers.default[0]).to.be(structure);
+
+            project.addStructure(structure, "foo");
+
+            expect(structure.project).to.be(project);
+            expect(structure.layer).to.be(project.layers.foo);
+            expect(project.layers.default).to.be.empty();
+            expect(project.layers.foo[0]).to.be(structure);
+
+            project.removeStructure(structure);
+
+            expect(project.structures).to.be.empty();
+            expect(project.layers.default).to.be.empty();
+            expect(project.layers.foo).to.be.empty();
+            expect(structure.project).to.be(undefined);
+
+            project.addStructure(structure, "foo");
+            expect(project.structures[structure.id]).to.be(structure);
+            project.removeStructure(structure.id);
+            expect(project.structures).to.be.empty();
         });
 
     });
