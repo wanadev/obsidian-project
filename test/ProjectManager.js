@@ -167,7 +167,7 @@ describe("ProjectManager", function() {
 
     });
 
-    describe("SAVE / SERIALIZATION", function() {
+    describe("OPEN / SAVE", function() {
 
         var project = new ProjectManager();
 
@@ -230,6 +230,50 @@ describe("ProjectManager", function() {
             };
             reader.readAsArrayBuffer(blob);
         });
+
+        it("can open the project from a buffer", function() {
+            var project2 = new ProjectManager();
+            project2.openFromBuffer(project.saveAsBuffer());
+
+            expect(project2.id).to.equal(project.id);
+            expect(project2.layers).to.only.have.keys("default", "layer1");
+            expect(project2.layers.layer1.length).to.equal(1);
+            expect(project2.layers.default.length).to.equal(2);
+            expect(project2.metadata).to.eql(project.metadata);
+
+            expect(project2.serialize()).to.eql(project.serialize());
+        });
+
+        it("can open the project from a data64 URL", function() {
+            var project2 = new ProjectManager();
+            project2.openFromData64Url(project.saveAsData64Url());
+
+            expect(project2.id).to.equal(project.id);
+            expect(project2.layers).to.only.have.keys("default", "layer1");
+            expect(project2.layers.layer1.length).to.equal(1);
+            expect(project2.layers.default.length).to.equal(2);
+            expect(project2.metadata).to.eql(project.metadata);
+
+            expect(project2.serialize()).to.eql(project.serialize());
+        });
+
+        it("can open the project from a Blob", function(done) {
+            var project2 = new ProjectManager();
+            project2.openFromBlob(project.saveAsBlob(), function(error) {
+                expect(error).to.be(undefined);
+
+                expect(project2.id).to.equal(project.id);
+                expect(project2.layers).to.only.have.keys("default", "layer1");
+                expect(project2.layers.layer1.length).to.equal(1);
+                expect(project2.layers.default.length).to.equal(2);
+                expect(project2.metadata).to.eql(project.metadata);
+
+                expect(project2.serialize()).to.eql(project.serialize());
+
+                done();
+            });
+        });
+
 
     });
 
