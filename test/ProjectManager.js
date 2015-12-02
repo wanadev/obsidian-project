@@ -165,4 +165,39 @@ describe("ProjectManager", function() {
 
     });
 
+    describe("SAVE / SERIALIZATION", function() {
+
+        var project = new ProjectManager();
+        var structure1 = new Structure();
+        var structure2 = new Structure();
+        var structure3 = new Structure();
+
+        project.addStructure(structure1, "layer1");
+        project.addStructure(structure2);
+        project.addStructure(structure3);
+
+        it("can be serialized", function() {
+            var serialized = project.serialize();
+            expect(serialized).to.only.have.keys("__name__", "id", "layers");
+            expect(serialized.layers).to.only.have.keys("default", "layer1");
+            expect(serialized.layers.layer1.length).to.equal(1);
+            expect(serialized.layers.default.length).to.equal(2);
+        });
+
+        it("can be unserialized", function() {
+            var serialized = project.serialize();
+            var project2 = new ProjectManager();
+
+            project2.unserialize(serialized);
+
+            expect(project2.id).to.equal(project.id);
+            expect(project2.layers).to.only.have.keys("default", "layer1");
+            expect(project2.layers.layer1.length).to.equal(1);
+            expect(project2.layers.default.length).to.equal(2);
+
+            expect(project2.serialize()).to.eql(serialized);
+        });
+
+    });
+
 });
