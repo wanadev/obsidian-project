@@ -1,6 +1,8 @@
 "use strict";
 
 var expect = require("expect.js");
+var WProjectFile = require("wanadev-project-format");
+
 var ProjectManager = require("../lib/ProjectManager.js");
 var Structure = require("../lib/Structure.js");
 
@@ -168,6 +170,7 @@ describe("ProjectManager", function() {
     describe("SAVE / SERIALIZATION", function() {
 
         var project = new ProjectManager();
+
         var structure1 = new Structure();
         var structure2 = new Structure();
         var structure3 = new Structure();
@@ -175,6 +178,8 @@ describe("ProjectManager", function() {
         project.addStructure(structure1, "layer1");
         project.addStructure(structure2);
         project.addStructure(structure3);
+
+        project.metadata.test = "Hello!";
 
         it("can be serialized", function() {
             var serialized = project.serialize();
@@ -196,6 +201,34 @@ describe("ProjectManager", function() {
             expect(project2.layers.default.length).to.equal(2);
 
             expect(project2.serialize()).to.eql(serialized);
+        });
+
+        it("can export the project as a Node Buffer", function() {
+            var buffer = project.saveAsBuffer();
+            expect(WProjectFile.isWanadevProjectFile(buffer)).to.be.ok();
+        });
+
+        it("can export the project as a data64 URL", function() {
+            var data64 = project.saveAsData64Url();
+            expect(data64).to.be.a("string");
+            expect(data64).to.contain("data:" + project.mimetype + ";base64,");
+        });
+
+        it("can export the project as a Blob", function(done) {
+            var buffer = project.saveAsBuffer();
+            var blob = project.saveAsBlob();
+
+            expect(blob).to.be.a(Blob);
+            expect(blob.size).to.equal(buffer.length);
+
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var b = new Buffer(event.target.result);
+                expect(WProjectFile.isWanadevProjectFile(b)).to.be.ok();
+                expect(b.toString()).to.equal(buffer.toString());
+                done();
+            };
+            reader.readAsArrayBuffer(blob);
         });
 
     });
