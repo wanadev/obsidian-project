@@ -274,7 +274,9 @@ describe("ProjectManager", function() {
             });
         });
 
+    });
 
+    expect("BLOBS", function() {
     });
 
 });
