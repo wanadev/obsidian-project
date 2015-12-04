@@ -1,5 +1,30 @@
 "use strict";
 
+var imageBuffer = new Buffer([
+    0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d,
+    0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10,
+    0x02, 0x03, 0x00, 0x00, 0x00, 0x62, 0x9d, 0x17, 0xf2, 0x00, 0x00, 0x00,
+    0x09, 0x50, 0x4c, 0x54, 0x45, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0xff,
+    0xff, 0xff, 0x67, 0x19, 0x64, 0x1e, 0x00, 0x00, 0x00, 0x01, 0x62, 0x4b,
+    0x47, 0x44, 0x00, 0x88, 0x05, 0x1d, 0x48, 0x00, 0x00, 0x00, 0x09, 0x70,
+    0x48, 0x59, 0x73, 0x00, 0x00, 0x0e, 0xc4, 0x00, 0x00, 0x0e, 0xc4, 0x01,
+    0x95, 0x2b, 0x0e, 0x1b, 0x00, 0x00, 0x00, 0x07, 0x74, 0x49, 0x4d, 0x45,
+    0x07, 0xdf, 0x0b, 0x12, 0x0d, 0x0b, 0x17, 0xca, 0x83, 0x65, 0x00, 0x00,
+    0x00, 0x00, 0x3d, 0x49, 0x44, 0x41, 0x54, 0x08, 0x1d, 0x0d, 0xc1, 0xc1,
+    0x0d, 0x00, 0x21, 0x0c, 0x03, 0xc1, 0x2d, 0x07, 0xd1, 0x0f, 0xfd, 0x9c,
+    0xf2, 0x8a, 0x5c, 0x05, 0xf2, 0x0b, 0xa5, 0xca, 0xf3, 0x0c, 0x27, 0x98,
+    0xe0, 0xf3, 0x15, 0x6e, 0x15, 0x2e, 0x0b, 0xeb, 0x09, 0xdf, 0x32, 0x13,
+    0x4c, 0x50, 0x7a, 0x43, 0xeb, 0x0d, 0xa5, 0xb5, 0xe9, 0x6e, 0x51, 0x5a,
+    0x9b, 0x09, 0x4e, 0xfc, 0x91, 0x4d, 0x22, 0x7f, 0x72, 0xcc, 0xb0, 0x7f,
+    0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4e, 0x44, 0xae, 0x42, 0x60, 0x82
+]);
+
+var imageData64 = "data:image/png;base64,";
+imageData64 += "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAACVBMVEUAAAD/AAD//";
+imageData64 += "/9nGWQeAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAd0SU1FB9";
+imageData64 += "8LEg0LF8qDZQAAAAA9SURBVAgdDcHBDQAhDAPBLQfRD/2c8opcBfILpcrzDCeY4PM";
+imageData64 += "VbhUuC+sJ3zITTFB6Q+sNpbXpblFamwlO/JFNIn9yzLB/AAAAAElFTkSuQmCC";
+
 var expect = require("expect.js");
 var WProjectFile = require("wanadev-project-format");
 
@@ -276,7 +301,71 @@ describe("ProjectManager", function() {
 
     });
 
-    expect("BLOBS", function() {
+    describe("BLOBS", function() {
+
+        it("can add a blob from a Buffer", function() {
+            var project = new ProjectManager();
+
+            var id = project.addBlobFromBuffer(imageBuffer);
+            expect(project.$data.wprjFile.getBlob(id)).to.be(imageBuffer);
+            expect(project.$data.wprjFile.getBlobRecord(id).mime).to.equal("application/octet-stream");
+
+            id = project.addBlobFromBuffer(imageBuffer, {id: "blob1"});
+            expect(id).to.equal("blob1");
+            expect(project.$data.wprjFile.getBlob(id)).to.be(imageBuffer);
+
+            id = project.addBlobFromBuffer(imageBuffer, {mime: "image/png"});
+            expect(project.$data.wprjFile.getBlobRecord(id).mime).to.equal("image/png");
+
+            id = project.addBlobFromBuffer(imageBuffer, {metadata: {"hello": "world"}});
+            expect(project.$data.wprjFile.getBlobRecord(id).metadata).to.eql({"hello": "world"});
+        });
+
+        it("can add a blob from a Blob", function() {
+            // TODO
+        });
+
+        it("can add a blob from a data64 URL", function() {
+            // TODO
+        });
+
+        it("can add a blob from a an Image", function() {
+            // TODO
+        });
+
+        // FIXME
+
+        it("can return blob's metadata", function() {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer, {metadata: {"hello": "world"}});
+            expect(project.getBlobMetadata(id)).to.eql({"hello": "world"});
+            // TODO
+        });
+
+        it("can remove a blob", function() {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer);
+            expect(project.$data.wprjFile.blobExists(id)).to.be.ok();
+            project.removeBlob(id);
+            expect(project.$data.wprjFile.blobExists(id)).not.to.be.ok();
+        });
+
+        it("can check if a blob exists", function() {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer);
+            expect(project.blobExists(id)).to.be.ok();
+            project.removeBlob(id);
+            expect(project.blobExists(id)).not.to.be.ok();
+        });
+
+        it("can list all blobs", function() {
+            var project = new ProjectManager();
+            var id1 = project.addBlobFromBuffer(imageBuffer);
+            var id2 = project.addBlobFromBuffer(imageBuffer);
+            expect(project.getBlobList().length).to.equal(2);
+            expect(project.getBlobList()).to.contain(id1);
+            expect(project.getBlobList()).to.contain(id2);
+        });
     });
 
 });
