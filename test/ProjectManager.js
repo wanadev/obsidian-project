@@ -30,6 +30,7 @@ var WProjectFile = require("wanadev-project-format");
 
 var ProjectManager = require("../lib/ProjectManager.js");
 var Structure = require("../lib/Structure.js");
+var helpers = require("../lib/helpers.js");
 
 describe("ProjectManager", function() {
 
@@ -321,16 +322,49 @@ describe("ProjectManager", function() {
             expect(project.$data.wprjFile.getBlobRecord(id).metadata).to.eql({"hello": "world"});
         });
 
-        it("can add a blob from a Blob", function() {
-            // TODO
+        it("can add a blob from a Blob", function(done) {
+            var project = new ProjectManager();
+            var blob = helpers.createBlob([imageBuffer.toArrayBuffer()], {type: "image/png"});
+
+            project.addBlob(blob, function(error, id) {
+                expect(error).to.be(undefined);
+                expect(id).to.be.a("string");
+                expect(project.$data.wprjFile.getBlob(id)).to.eql(imageBuffer);
+                done();
+            });
         });
 
         it("can add a blob from a data64 URL", function() {
-            // TODO
+            var project = new ProjectManager();
+
+            var id = project.addBlobFromData64Url(imageData64);
+            expect(project.$data.wprjFile.getBlob(id)).to.eql(imageBuffer);
+            expect(project.$data.wprjFile.getBlobRecord(id).mime).to.equal("image/png");
+
+            id = project.addBlobFromData64Url(imageData64, {id: "blob1"});
+            expect(id).to.equal("blob1");
+            expect(project.$data.wprjFile.getBlob(id)).to.eql(imageBuffer);
+
+            id = project.addBlobFromData64Url(imageData64, {mime: "application/x-test"});
+            expect(project.$data.wprjFile.getBlobRecord(id).mime).to.equal("application/x-test");
+
+            id = project.addBlobFromData64Url(imageData64, {metadata: {"hello": "world"}});
+            expect(project.$data.wprjFile.getBlobRecord(id).metadata).to.eql({"hello": "world"});
         });
 
-        it("can add a blob from a an Image", function() {
-            // TODO
+        it("can add a blob from a an Image", function(done) {
+            var project = new ProjectManager();
+            var img = new Image();
+            img.onload = function(event) {
+                var id = project.addBlobFromImage(img);
+                expect(project.$data.wprjFile.getBlobRecord(id).mime).to.equal("image/png");
+                id = project.addBlobFromImage(img, {mime: "image/jpeg"});
+                expect(project.$data.wprjFile.getBlobRecord(id).mime).to.equal("image/jpeg");
+                id = project.addBlobFromImage(img, {mime: "image/gif"});
+                expect(project.$data.wprjFile.getBlobRecord(id).mime).to.equal("image/png");
+                done();
+            };
+            img.src = imageData64;
         });
 
         // FIXME
@@ -339,7 +373,6 @@ describe("ProjectManager", function() {
             var project = new ProjectManager();
             var id = project.addBlobFromBuffer(imageBuffer, {metadata: {"hello": "world"}});
             expect(project.getBlobMetadata(id)).to.eql({"hello": "world"});
-            // TODO
         });
 
         it("can remove a blob", function() {
