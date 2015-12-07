@@ -367,7 +367,49 @@ describe("ProjectManager", function() {
             img.src = imageData64;
         });
 
-        // FIXME
+        it("can return a blob as Buffer", function() {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer, {mime: "image/png"});
+
+            var buffer = project.getBlobAsBuffer(id);
+            expect(buffer).to.eql(imageBuffer);
+        });
+
+        it("can return a blob as Blob", function() {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer, {mime: "image/png"});
+
+            var blob = project.getBlob(id);
+            expect(blob.size).to.equal(imageBuffer.length);
+            expect(blob.type).to.equal("image/png");
+        });
+
+        it("can return a blob as data64 URL", function() {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer, {mime: "image/png"});
+
+            var data64 = project.getBlobAsData64Url(id);
+            expect(data64).to.contain("data:image/png;base64,");
+        });
+
+        it("can return a blob as URL", function() {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer, {mime: "image/png"});
+
+            var url = project.getBlobAsUrl(id);
+            expect(url).to.be.a("string");
+        });
+
+        it("can return a blob as Image", function(done) {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer, {mime: "image/png"});
+
+            project.getBlobAsImage(id, function(error, image) {
+                expect(image).to.be.an(Image);
+                expect(error).to.be(undefined);
+                done();
+            });
+        });
 
         it("can return blob's metadata", function() {
             var project = new ProjectManager();
