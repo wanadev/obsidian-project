@@ -9,7 +9,7 @@
 Example:
 
 ```javascript
-var SerializableClass = require("SerializableClass");
+var SerializableClass = require("wanadev-project-manager/lib/SerializableClass");
 
 var Demo = SerializableClass.$extend({
     __name__: "Demo",                     // Must be set to the class name

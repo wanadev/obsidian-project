@@ -14,7 +14,7 @@
 Example:
 
 ```javascript
-var ProjectManager = require("wanadev-project-manager");
+var ProjectManager = require("wanadev-project-manager/lib/ProjectManager");
 
 var project = new ProjectManager({
     fileExt: "wprj",      // Default extention for generated files (e.g. "kzd", "wnp", "xbly")
@@ -77,9 +77,71 @@ TODO
 TODO
 
 
-## Adding Structures And Layers To The Project
+## Structures And Layers
 
-TODO
+### Adding a Structure To The Project
+
+```javascript
+var Structure = require("wanadev-project-manager/lib/Structure");
+
+var structure = new Structure();
+var layerName = "default";
+
+project.addStructure(structure, layerName);
+```
+
+* `structure` is an instance of a class inherited from `Structure` (that is itself inherited from `SerializableCalss`).
+* `layerName` is the name of the layer on which the structure will be added.
+  * This parameter is **optional**. If it is not provided, the structure will be added to a layer called `"default"`.
+  * If the given `layerName` does not match an existing layer, a new layer will be automatically created.
+
+### Removing a Structure From The Project
+
+```javascript
+project.removeStructure(structure);    // Instance of Structure
+project.removeStructure(structureId);  // Structure id as String
+```
+
+__NOTE:__ This will only detach the structure from the project, this
+**will not** destroy it (it does not call the `structure.destroy()` method.
+If you want to destroy the structure, just call the `structure.destroy()`
+method, this will automatically detach the structure from the parent project.
+
+### Accessing To The Structures
+
+Accessing to structures (layer independent):
+
+```javascript
+project.structures;               // -> {structureId: Structure, ...}
+project.structures[structureId];  // -> Structure
+```
+
+Accessing to structures contained in a specific layer:
+
+```javascript
+project.layers;                 // -> {layerName: [Structure, ...], ...}
+project.layers[layerName];      // -> [Structure, ...]
+```
+
+### Adding Layers
+
+Layers are automatically added when you add a structure to an unexisting layer, but you can also add them manually:
+
+```javascript
+project.addLayers("layer1");
+project.addLayers("layer1", "layer2", ...);
+project.addLayers(["layer1", "layer2", ...]);
+```
+
+### Removing Layers
+
+```javascript
+project.removeLayers("layer1");
+project.removeLayers("layer1", "layer2", ...);
+project.removeLayers(["layer1", "layer2", ...]);
+```
+
+__NOTE:__ This will remove and **destroy** (`structure.destroy()`) all the structures contained in the layer!
 
 
 ## Attaching Resources (Blob) To The Project
