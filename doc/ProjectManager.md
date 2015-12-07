@@ -146,4 +146,35 @@ __NOTE:__ This will remove and **destroy** (`structure.destroy()`) all the struc
 
 ## Attaching Resources (Blob) To The Project
 
-TODO
+### Adding Blobs
+
+```javascript
+project.addBlobFromBuffer(buffer, options)       // -> id: String
+project.addBlob(blob, callback, options)         // ASYNC -> callback: function(error, id) {}
+project.addBlobFromData64Url(data64, options)    // -> id: String
+project.addBlobFromImage(image, options)         // -> id: String
+project.addBlobFromUrl(url, callback, options)   // NOT IMPLEMENTED YET // ASYNC, SERVER PROXY, -> callback: function(error, id) {}
+```
+
+### Removing a Blob
+
+```javascript
+project.removeBlob(id);
+```
+
+### Getting a Blob
+
+```javascript
+project.getBlobAsBuffer(id)            // -> Buffer
+project.getBlob(id)                    // -> Blob
+project.getBlobAsData64Url(id)         // -> String
+project.getBlobUrl(id)                 // -> String
+project.getBlobAsImage(id, callback)   // ASYNC -> function(error, image) {}
+```
+
+### Getting The List of All The Blobs Attached To The Project
+
+```javascript
+project.getBlobList();  // -> ["blobId1", "blobId2", ...]
+```
+
