@@ -52,7 +52,7 @@ project.saveToLocalFile(fileName);  // NOT IMPLEMENTED YET // filename is option
 
 ```javascript
 project.openFromBuffer(buffer);
-project.openFromBlob(blob, callback);   // ASYNC, read 1. bellow
+project.openFromBlob(blob, callback);   // ASYNC // Promise, read 1. bellow
 project.openFromData64Url(data64);
 project.openFromLocalFile();            // NOT IMPLEMENTED YET // read 2. bellow
 project.openFromUrl(url, callback);     // NOT IMPLEMENTED YET // ASYNC, read 3. bellow
@@ -60,12 +60,26 @@ project.openFromUrl(url, callback);     // NOT IMPLEMENTED YET // ASYNC, read 3.
 
 ### 1. project.openFromBlob(blob, callback)
 
-Callback:
+Using a Node callback:
 
 ```javascript
-function(error) {
-    // `error` is undefined if every thing is ok, else it contains the error.
-}
+project.openFromBlob(blob, function(error) {
+    if (error) {
+        console.error("Something went wrong...", error);
+    } else {
+        console.log("ok");
+    }
+});
+```
+
+Using promises:
+
+```javascript
+project.openFromBlob(blob).then(function() {
+    console.log("ok");
+}).catch(function(error) {
+    console.error("Something went wrong...", error);
+});
 ```
 
 ### 2. project.openFromLocalFile()
@@ -150,10 +164,34 @@ __NOTE:__ This will remove and **destroy** (`structure.destroy()`) all the struc
 
 ```javascript
 project.addBlobFromBuffer(buffer, options)       // -> id: String
-project.addBlob(blob, callback, options)         // ASYNC -> callback: function(error, id) {}
+project.addBlob(blob, options, callback)         // ASYNC // Promise, read 1.
 project.addBlobFromData64Url(data64, options)    // -> id: String
 project.addBlobFromImage(image, options)         // -> id: String
-project.addBlobFromUrl(url, callback, options)   // NOT IMPLEMENTED YET // ASYNC, SERVER PROXY, -> callback: function(error, id) {}
+project.addBlobFromUrl(url, options, callback)   // NOT IMPLEMENTED YET // ASYNC // Promise // SERVER PROXY
+```
+
+#### 1. project.addBlob(blob, options, callback)
+
+Using a Node callback:
+
+```javascript
+project.addBlob(blob, {}, function(error, id) {
+    if (error) {
+        console.error("Something went wrong...", error);
+    } else {
+        console.log("ok, blobId = " + id);
+    }
+});
+```
+
+Using promises:
+
+```javascript
+project.addBlob(blob).then(function(id) {
+    console.log("ok, blobId = " + id);
+}).catch(function(error) {
+    console.error("Something went wrong...", error);
+});
 ```
 
 ### Removing a Blob
@@ -169,8 +207,33 @@ project.getBlobAsBuffer(id)            // -> Buffer
 project.getBlob(id)                    // -> Blob
 project.getBlobAsData64Url(id)         // -> String
 project.getBlobUrl(id)                 // -> String
-project.getBlobAsImage(id, callback)   // ASYNC -> function(error, image) {}
+project.getBlobAsImage(id, callback)   // ASYNC // Promise, read 1.
 ```
+
+#### 1. project.getBlobAsImage(id, callback)
+
+Using a Node callback:
+
+```javascript
+project.getBlobAsImage("blobId", function(error, image) {
+    if (error) {
+        console.error("Something went wrong...", error);
+    } else {
+        console.log("ok");
+    }
+});
+```
+
+Using promises:
+
+```javascript
+project.getBlobAsImage("blobId").then(function(image) {
+    console.log("ok");
+}).catch(function(error) {
+    console.error("Something went wrong...", error);
+});
+```
+
 
 ### Getting The List of All The Blobs Attached To The Project
 

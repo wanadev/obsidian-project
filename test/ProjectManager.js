@@ -286,7 +286,7 @@ describe("ProjectManager", function() {
         it("can open the project from a Blob", function(done) {
             var project2 = new ProjectManager();
             project2.openFromBlob(project.saveAsBlob(), function(error) {
-                expect(error).to.be(undefined);
+                expect(error).to.be(null);
 
                 expect(project2.id).to.equal(project.id);
                 expect(project2.layers).to.only.have.keys("default", "layer1");
@@ -297,6 +297,20 @@ describe("ProjectManager", function() {
                 expect(project2.serialize()).to.eql(project.serialize());
 
                 done();
+            });
+        });
+
+        it("can open the project from a Blob (promise)", function() {
+            var project2 = new ProjectManager();
+
+            return project2.openFromBlob(project.saveAsBlob()).then(function () {
+                expect(project2.id).to.equal(project.id);
+                expect(project2.layers).to.only.have.keys("default", "layer1");
+                expect(project2.layers.layer1.length).to.equal(1);
+                expect(project2.layers.default.length).to.equal(2);
+                expect(project2.metadata).to.eql(project.metadata);
+
+                expect(project2.serialize()).to.eql(project.serialize());
             });
         });
 
@@ -326,11 +340,21 @@ describe("ProjectManager", function() {
             var project = new ProjectManager();
             var blob = helpers.createBlob([imageBuffer.toArrayBuffer()], {type: "image/png"});
 
-            project.addBlob(blob, function(error, id) {
-                expect(error).to.be(undefined);
+            project.addBlob(blob, {}, function(error, id) {
+                expect(error).to.be(null);
                 expect(id).to.be.a("string");
                 expect(project.$data.wprjFile.getBlob(id)).to.eql(imageBuffer);
                 done();
+            });
+        });
+
+        it("can add a blob from a Blob (promise)", function() {
+            var project = new ProjectManager();
+            var blob = helpers.createBlob([imageBuffer.toArrayBuffer()], {type: "image/png"});
+
+            return project.addBlob(blob).then(function(id) {
+                expect(id).to.be.a("string");
+                expect(project.$data.wprjFile.getBlob(id)).to.eql(imageBuffer);
             });
         });
 
@@ -406,8 +430,17 @@ describe("ProjectManager", function() {
 
             project.getBlobAsImage(id, function(error, image) {
                 expect(image).to.be.an(Image);
-                expect(error).to.be(undefined);
+                expect(error).to.be(null);
                 done();
+            });
+        });
+
+        it("can return a blob as Image (promise)", function() {
+            var project = new ProjectManager();
+            var id = project.addBlobFromBuffer(imageBuffer, {mime: "image/png"});
+
+            return project.getBlobAsImage(id).then(function(image) {
+                expect(image).to.be.an(Image);
             });
         });
 
