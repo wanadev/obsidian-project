@@ -86,6 +86,7 @@ you have to define custom serialization / unserialization functions:
 
 ```javascript
 SerializableClass.$addSerializer("serializerName", {
+    class: YourClass,                      // not required if you only use the `@serializer` annotation
     serialize: function(data) {
         // ...
         return serializedData;
@@ -97,7 +98,7 @@ SerializableClass.$addSerializer("serializerName", {
 });
 ```
 
-And then you have to annotates all properties that will require your custom serializer:
+And then you can annotates all properties that will require your custom serializer (if you defined a class in the serializer, this is not required):
 
 ```javascript
 getFoobar: function() {
@@ -110,12 +111,10 @@ setFoobar: function(value) {
 }
 ```
 
-__NOTE:__ There is a built in serializer for `SerializableClass`. to use it, just add the `"@serializer serializableClass"` annotation to your property.
-
 
 ## Clone
 
-To clon a class, just call the `clone` method of the class;
+To clone a class, just call the `clone` method of the class;
 
 
 ## Trouble shooting
