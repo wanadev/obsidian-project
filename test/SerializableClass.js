@@ -94,7 +94,7 @@ describe("SerializableClass", function() {
             id: "testid",
             prop3: 333
         };
-        expect(SerializableClass.$unserialize.bind(null, data)).to.throwException(/UnreferencedSerializableClass/);
+        expect(SerializableClass.$unserialize.bind(null, data)).to.throwException(/MissingSerializer/);
 
         SerializableClass.$register(TestClass);
         var test = SerializableClass.$unserialize(data);
@@ -103,11 +103,11 @@ describe("SerializableClass", function() {
         expect(test.serialize()).to.eql(data);
     });
 
-    it("can use custom serializers", function() {
+    it("can use explicit custom serializers", function() {
         var Class1 = SerializableClass.$extend({
             __name__: "Class1",
             getClass2: function() {
-                "@serializer serializableClass";
+                "@serializer SerializableClass";
                 return this.$data.class2;
             },
             setClass2: function(c) {
@@ -163,7 +163,7 @@ describe("SerializableClass", function() {
         expect(test2.id).not.to.equal(test.id);
     });
 
-    it("makes deep copies of object/array properties", function() {
+    it("makes deep copies of object/array properties", function() {  // TODO
         var Class1 = SerializableClass.$extend({
             __name__: "Class1",
             getObject: function() {
