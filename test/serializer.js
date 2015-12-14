@@ -177,7 +177,104 @@ describe("serializer", function() {
                     y: 200,
                     foo: "bar"
                 }
-            })
+            });
+        });
+
+    });
+
+    describe("objectUnserializer", function() {
+
+        it("can unserialize a literal object", function() {
+            var obj = {
+                a: 1,
+                b: 2,
+                c: {
+                    d: 4,
+                    e: [1, 2, 3]
+                }
+            };
+
+            var obj2 = serializer.objectUnserializer(obj);
+
+            expect(obj2).to.eql(obj);
+            expect(obj2).not.to.be(obj);
+            expect(obj2.c).not.to.be(obj.c);
+            expect(obj2.c.e).not.to.be(obj.c.e);
+        });
+
+        it("can unserialize an array", function() {
+            var list = [1, 2, [3, 4, {a: 1}]];
+            var list2 = serializer.objectUnserializer(list);
+
+            expect(list2).to.eql(list);
+            expect(list2).not.to.be(list);
+            expect(list2[2]).not.to.be(list[2]);
+            expect(list2[2][2]).not.to.be(list[2][2]);
+        });
+
+        it("can unserialize a simple SerializableClass", function() {
+            var obj = {
+                __name__: "Class1",
+                id: "id1",
+                prop1: 1
+            };
+
+            var cls1 = serializer.objectUnserializer(obj);
+
+            expect(cls1).to.be.a(this.Class1);
+            expect(cls1.serialize()).to.eql(obj);
+        });
+
+        it("can unserialize recursively SerializableClass", function() {
+            var obj = {
+                __name__: "Class3",
+                id: "id1",
+                cls2: {
+                    __name__: "Class2",
+                    id: "id2",
+                    items: [{
+                            __name__: "Class1",
+                            id: "id3",
+                            prop1: 1
+                        }, {
+                            __name__: "Class1",
+                            id: "id4",
+                            prop1: 1
+                    }]
+                }
+            };
+
+            var cls = serializer.objectUnserializer(obj);
+
+            expect(cls).to.be.a(this.Class3);
+            expect(cls.cls2).to.be.a(this.Class2);
+            expect(cls.cls2.items[0]).to.be.a(this.Class1);
+            expect(cls.cls2.items[1]).to.be.a(this.Class1);
+            expect(cls.serialize()).to.eql(obj);
+        });
+
+        it("can unserialize any serialized class if a serializer is available", function() {
+            var obj = {
+                pt1: {
+                    __name__: "Point",
+                    x: 10,
+                    y: 20
+                },
+                pt2: {
+                    __name__: "Point",
+                    x: 100,
+                    y: 200
+                }
+            };
+
+            var obj2 = serializer.objectUnserializer(obj);
+
+            expect(obj2.pt1).to.be.a(this.Point);
+            expect(obj2.pt2).to.be.a(this.Point);
+            expect(obj2.pt1.x).to.equal(10);
+            expect(obj2.pt1.y).to.equal(20);
+            expect(obj2.pt2.x).to.equal(100);
+            expect(obj2.pt2.y).to.equal(200);
         });
 
     });
