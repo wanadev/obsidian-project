@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            all: ["lib/*.js", "bin/*"],
+            all: ["lib/*.js", "bin/*", "server/*.js"],
             options: {
                 jshintrc: true
             }

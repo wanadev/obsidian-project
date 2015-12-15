@@ -15,8 +15,10 @@
   "license": "proprietary",
   "dependencies": {
     "abitbol": "^1.0.3",
+    "express": "^4.13.3",
     "lodash": "^3.10.1",
     "q": "^1.4.1",
+    "request": "^2.67.0",
     "uuid": "^2.0.1",
     "wanadev-project-format": "git+ssh://git@git.wanadev.org:interne/wanadev-project-format.git"
   },
