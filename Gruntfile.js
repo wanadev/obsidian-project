@@ -27,14 +27,24 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: true
             }
+        },
+
+        shell: {
+            serverStart: {
+                command: "node node_modules/.bin/pm2 start -f test/server/server.js --name=wanadev-proxy-server-test --watch"
+            },
+            serverStop: {
+                command: "node node_modules/.bin/pm2 delete wanadev-proxy-server-test"
+            }
         }
     });
 
     grunt.loadNpmTasks("grunt-browserify");
     grunt.loadNpmTasks("grunt-mocha-phantomjs");
     grunt.loadNpmTasks("grunt-contrib-jshint");
+    grunt.loadNpmTasks("grunt-shell");
 
     grunt.registerTask("default", ["test"]);
-    grunt.registerTask("test", "Run tests in a web browser", ["jshint", "browserify:test", "mocha_phantomjs"]);
+    grunt.registerTask("test", "Run tests in a web browser", ["jshint", "browserify:test", "shell:serverStart", "mocha_phantomjs", "shell:serverStop"]);
 
 };
