@@ -19,7 +19,11 @@ module.exports = function(grunt) {
         },
 
         mocha_phantomjs: {
-            all: ["test/browser/index.html"]
+            all: {
+                options: {
+                    urls: ["http://localhost:3000/"]
+                }
+            }
         },
 
         jshint: {
@@ -31,7 +35,7 @@ module.exports = function(grunt) {
 
         shell: {
             serverStart: {
-                command: "node node_modules/.bin/pm2 start -f test/server/server.js --name=wanadev-proxy-server-test --watch"
+                command: "node node_modules/.bin/pm2 start -f test/server/server.js --name=wanadev-proxy-server-test --watch && sleep 1"
             },
             serverStop: {
                 command: "node node_modules/.bin/pm2 delete wanadev-proxy-server-test"
