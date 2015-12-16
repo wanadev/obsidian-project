@@ -411,6 +411,66 @@ describe("ProjectManager", function() {
             img.src = imageData64;
         });
 
+        it("can add a blob from an URL", function(done) {
+            var project2 = new ProjectManager();
+
+            project2.addBlobFromUrl(BASE_URL + "/files/image.png", null, function(error, id) {
+                expect(error).to.be(null);
+                expect(id).to.be.a("string");
+                var buffer = project2.getBlobAsBuffer(id);
+                expect(buffer instanceof Uint8Array || buffer instanceof Buffer).to.be.ok();
+                expect(buffer.length).to.equal(816);
+                expect(buffer[0]).to.equal(0x89);
+                expect(buffer[1]).to.equal(0x50);
+                expect(buffer[2]).to.equal(0x4E);
+                expect(buffer[3]).to.equal(0x47);
+                var blob = project2.getBlob(id);
+                expect(blob.type).to.equal("image/png");
+
+                project2.addBlobFromUrl(BASE_URL + "/files/image.png", {mime: "application/x-test", metadata: {foo: "bar"}}, function(error, id) {
+                    expect(error).to.be(null);
+                    expect(id).to.be.a("string");
+                    var blob = project2.getBlob(id);
+                    expect(blob.type).to.equal("application/x-test");
+                    expect(project2.getBlobMetadata(id)).to.eql({foo: "bar"});
+
+                    done();
+                });
+            });
+        });
+
+        it("can add a blob from an URL (promise)", function() {
+            var project2 = new ProjectManager();
+
+            return project2.addBlobFromUrl(BASE_URL + "/files/image.png")
+                .then(function(id) {
+                    expect(id).to.be.a("string");
+                    var buffer = project2.getBlobAsBuffer(id);
+                    expect(buffer instanceof Uint8Array || buffer instanceof Buffer).to.be.ok();
+                    expect(buffer.length).to.equal(816);
+                    expect(buffer[0]).to.equal(0x89);
+                    expect(buffer[1]).to.equal(0x50);
+                    expect(buffer[2]).to.equal(0x4E);
+                    expect(buffer[3]).to.equal(0x47);
+                    var blob = project2.getBlob(id);
+                    expect(blob.type).to.equal("image/png");
+                })
+                .then(project2.addBlobFromUrl.bind(null, BASE_URL + "/files/image.png", {
+                    mime: "application/x-test",
+                    metadata: {
+                        foo: "bar"
+                    }
+                }))
+                .then(function(id) {
+                    expect(id).to.be.a("string");
+                    var blob = project2.getBlob(id);
+                    expect(blob.type).to.equal("application/x-test");
+                    expect(project2.getBlobMetadata(id)).to.eql({
+                        foo: "bar"
+                    });
+                });
+        });
+
         it("can return a blob as Buffer", function() {
             var project = new ProjectManager();
             var id = project.addBlobFromBuffer(imageBuffer, {mime: "image/png"});

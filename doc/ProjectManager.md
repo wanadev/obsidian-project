@@ -55,7 +55,7 @@ project.openFromBuffer(buffer);
 project.openFromBlob(blob, callback);   // ASYNC // Promise, read 1. bellow
 project.openFromData64Url(data64);
 project.openFromLocalFile();            // NOT IMPLEMENTED YET // read 2. bellow
-project.openFromUrl(url, callback);     // NOT IMPLEMENTED YET // ASYNC, read 3. bellow
+project.openFromUrl(url, callback);     // ASYNC // PROXY, read 3. bellow
 ```
 
 ### 1. project.openFromBlob(blob, callback)
@@ -187,10 +187,10 @@ __NOTE:__ This will remove and **destroy** (`structure.destroy()`) all the struc
 
 ```javascript
 project.addBlobFromBuffer(buffer, options)       // -> id: String
-project.addBlob(blob, options, callback)         // ASYNC // Promise, read 1.
+project.addBlob(blob, options, callback)         // ASYNC, read 1.
 project.addBlobFromData64Url(data64, options)    // -> id: String
 project.addBlobFromImage(image, options)         // -> id: String
-project.addBlobFromUrl(url, options, callback)   // NOT IMPLEMENTED YET // ASYNC // Promise // SERVER PROXY
+project.addBlobFromUrl(url, options, callback)   // ASYNC // PROXY, read 2.
 ```
 
 #### 1. project.addBlob(blob, options, callback)
@@ -211,6 +211,32 @@ Using promises:
 
 ```javascript
 project.addBlob(blob).then(function(id) {
+    console.log("ok, blobId = " + id);
+}).catch(function(error) {
+    console.error("Something went wrong...", error);
+});
+```
+
+#### 2. project.addBlobFromUrl(url, options, callback)
+
+__NOTE:__ This method require a server-side proxy to work, read `proxy.md` for more informations.
+
+Using a Node callback:
+
+```javascript
+project.addBlobFromUrl("http://example.com/image.png", {}, function(error, id) {
+    if (error) {
+        console.error("Something went wrong...", error);
+    } else {
+        console.log("ok, blobId = " + id);
+    }
+});
+```
+
+Using promises:
+
+```javascript
+project.addBlobFromUrl("http://example.com/image.png").then(function(id) {
     console.log("ok, blobId = " + id);
 }).catch(function(error) {
     console.error("Something went wrong...", error);
