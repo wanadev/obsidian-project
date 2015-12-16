@@ -27,15 +27,20 @@ function downloadProxy(options) {
             }
         }
 
+        if (!_(url).startsWith("http")) {
+            res.sendStatus(400);
+            return;
+        }
+
         try {
             request.get(url)
                 .on("response", function(response) {
                     response.headers.server = "WanadevDownloadProxy";
-                    if (!response.headers["content-type"].match(allowedMimes)) {
-                        res.sendStatus(415);
-                    }
                     if (response.statusCode != 200) {
                         res.sendStatus(404);
+                    }
+                    if (!response.headers["content-type"].match(allowedMimes)) {
+                        res.sendStatus(415);
                     }
                 }).on("error", function(error) {
                     console.error("[downloadProxy] Error: " + error); // jshint ignore:line

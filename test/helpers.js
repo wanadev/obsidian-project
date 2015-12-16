@@ -38,12 +38,30 @@ describe("helpers", function() {
         });
 
         it("returns an error if the resource type is not allowed", function() {
+            return helpers.httpGet("http://localhost:3000/files/test.txt")
+                .then(function(response) {
+                    throw new Error("ShouldNotSucceed");
+                }).catch(function(error) {
+                    expect(error.toString()).to.match(/HttpStatus415/);
+                });
         });
 
         it("returns an error if the resource does not exists", function() {
+            return helpers.httpGet("http://localhost:3000/files/foobar")
+                .then(function(response) {
+                    throw new Error("ShouldNotSucceed");
+                }).catch(function(error) {
+                    expect(error.toString()).to.match(/HttpStatus404/);
+                });
         });
 
         it("returns an error if the URL is not valide", function() {
+            return helpers.httpGet("foobar/baz")
+                .then(function(response) {
+                    throw new Error("ShouldNotSucceed");
+                }).catch(function(error) {
+                    expect(error.toString()).to.match(/HttpStatus/);
+                });
         });
     });
 });
