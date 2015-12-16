@@ -44,7 +44,6 @@ __NOTE:__ When you instantiate the `ProjectManager` class, it already contains a
 project.saveAsBuffer();     // -> Buffer
 project.saveAsBlob();       // -> Blob
 project.saveAsData64Url();  // -> String
-project.saveToLocalFile(fileName);  // NOT IMPLEMENTED YET // filename is optional, "project.wprj" by default
 ```
 
 
@@ -54,8 +53,7 @@ project.saveToLocalFile(fileName);  // NOT IMPLEMENTED YET // filename is option
 project.openFromBuffer(buffer);
 project.openFromBlob(blob, callback);   // ASYNC // Promise, read 1. bellow
 project.openFromData64Url(data64);
-project.openFromLocalFile();            // NOT IMPLEMENTED YET // read 2. bellow
-project.openFromUrl(url, callback);     // ASYNC // PROXY, read 3. bellow
+project.openFromUrl(url, callback);     // ASYNC // PROXY, read 2. bellow
 ```
 
 ### 1. project.openFromBlob(blob, callback)
@@ -84,11 +82,7 @@ project.openFromBlob(blob)
     });
 ```
 
-### 2. project.openFromLocalFile()
-
-TODO
-
-### 3. project.openFromUrl(url)
+### 2. project.openFromUrl(url)
 
 __NOTE:__ This method require a server-side proxy to work, read `proxy.md` for more informations.
 
