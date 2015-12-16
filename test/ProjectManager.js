@@ -1,5 +1,7 @@
 "use strict";
 
+var BASE_URL = location.protocol + "//" + location.host;
+
 var imageBuffer = new Buffer([
     0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d,
     0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10,
@@ -312,6 +314,24 @@ describe("ProjectManager", function() {
 
                 expect(project2.serialize()).to.eql(project.serialize());
             });
+        });
+
+        it("can open the project from an URL", function(done) {
+            var project2 = new ProjectManager();
+
+            project2.openFromUrl(BASE_URL + "/files/project.wprj", function(resposne) {
+                expect(project2.metadata.foo).to.equal("bar");
+                done();
+            });
+        });
+
+        it("can open the project from an URL (promise)", function() {
+            var project2 = new ProjectManager();
+
+            return project2.openFromUrl(BASE_URL + "/files/project.wprj")
+                .then(function() {
+                    expect(project2.metadata.foo).to.equal("bar");
+                });
         });
 
     });

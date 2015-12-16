@@ -1,5 +1,7 @@
 "use strict";
 
+var BASE_URL = location.protocol + "//" + location.host;
+
 var expect = require("expect.js");
 var helpers = require("../lib/helpers.js");
 
@@ -20,25 +22,25 @@ describe("helpers", function() {
     describe("httpGet", function() {
 
         it("can download an image as Buffer", function() {
-            return helpers.httpGet("http://localhost:3000/files/image.png")
+            return helpers.httpGet(BASE_URL + "/files/image.png")
                 .then(function(response) {
                     expect(response.mime).to.equal("image/png");
-                    expect(response.buffer instanceof Buffer || response.buffer instanceof Uint8Array).to.ok();
+                    expect(response.buffer instanceof Buffer || response.buffer instanceof Uint8Array).to.be.ok();
                     expect(response.buffer.length).to.equal(816);
                 });
         });
 
         it("can download a project as Buffer", function() {
-            return helpers.httpGet("http://localhost:3000/files/project.wprj")
+            return helpers.httpGet(BASE_URL + "/files/project.wprj")
                 .then(function(response) {
                     expect(response.mime).to.equal("application/octet-stream");
-                    expect(response.buffer instanceof Buffer || response.buffer instanceof Uint8Array).to.ok();
+                    expect(response.buffer instanceof Buffer || response.buffer instanceof Uint8Array).to.be.ok();
                     expect(response.buffer.length).to.equal(147);
                 });
         });
 
         it("returns an error if the resource type is not allowed", function() {
-            return helpers.httpGet("http://localhost:3000/files/test.txt")
+            return helpers.httpGet(BASE_URL + "/files/test.txt")
                 .then(function(response) {
                     throw new Error("ShouldNotSucceed");
                 }).catch(function(error) {
@@ -47,7 +49,7 @@ describe("helpers", function() {
         });
 
         it("returns an error if the resource does not exists", function() {
-            return helpers.httpGet("http://localhost:3000/files/foobar")
+            return helpers.httpGet(BASE_URL + "/files/foobar")
                 .then(function(response) {
                     throw new Error("ShouldNotSucceed");
                 }).catch(function(error) {
