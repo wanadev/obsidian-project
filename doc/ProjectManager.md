@@ -88,7 +88,30 @@ TODO
 
 ### 3. project.openFromUrl(url)
 
-TODO
+__NOTE:__ This method require a server-side proxy to work, read `proxy.md` for more informations.
+
+Using a Node callback:
+
+```javascript
+project.openFromUrl("http://example.com/project.wprj", function(error) {
+    if (error) {
+        console.error("Something went wrong...", error);
+    } else {
+        console.log("ok");
+    }
+});
+```
+
+Using promises:
+
+```javascript
+project.openFromUrl("http://example.com/project.wprj").then(function() {
+    console.log("ok");
+}).catch(function(error) {
+    console.error("Something went wrong...", error);
+});
+```
+
 
 
 ## Structures And Layers
