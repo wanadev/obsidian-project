@@ -19,13 +19,26 @@ module.exports = function(grunt) {
         },
 
         mocha_phantomjs: {
-            all: ["test/browser/index.html"]
+            all: {
+                options: {
+                    urls: ["http://localhost:3000/"]
+                }
+            }
         },
 
         jshint: {
-            all: ["lib/*.js", "bin/*"],
+            all: ["lib/*.js", "bin/*", "server/*.js"],
             options: {
                 jshintrc: true
+            }
+        },
+
+        shell: {
+            serverStart: {
+                command: "node node_modules/.bin/pm2 start -f test/server/server.js --name=wanadev-proxy-server-test --watch && sleep 1"
+            },
+            serverStop: {
+                command: "node node_modules/.bin/pm2 delete wanadev-proxy-server-test"
             }
         }
     });
@@ -33,8 +46,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-browserify");
     grunt.loadNpmTasks("grunt-mocha-phantomjs");
     grunt.loadNpmTasks("grunt-contrib-jshint");
+    grunt.loadNpmTasks("grunt-shell");
 
     grunt.registerTask("default", ["test"]);
-    grunt.registerTask("test", "Run tests in a web browser", ["jshint", "browserify:test", "mocha_phantomjs"]);
+    grunt.registerTask("test", "Run tests in a web browser", ["jshint", "browserify:test", "shell:serverStart", "mocha_phantomjs", "shell:serverStop"]);
 
 };
