@@ -75,11 +75,13 @@ project.openFromBlob(blob, function(error) {
 Using promises:
 
 ```javascript
-project.openFromBlob(blob).then(function() {
-    console.log("ok");
-}).catch(function(error) {
-    console.error("Something went wrong...", error);
-});
+project.openFromBlob(blob)
+    .then(function() {
+        console.log("ok");
+    })
+    .catch(function(error) {
+        console.error("Something went wrong...", error);
+    });
 ```
 
 ### 2. project.openFromLocalFile()
@@ -105,11 +107,13 @@ project.openFromUrl("http://example.com/project.wprj", function(error) {
 Using promises:
 
 ```javascript
-project.openFromUrl("http://example.com/project.wprj").then(function() {
-    console.log("ok");
-}).catch(function(error) {
-    console.error("Something went wrong...", error);
-});
+project.openFromUrl("http://example.com/project.wprj")
+    .then(function() {
+        console.log("ok");
+    })
+    .catch(function(error) {
+        console.error("Something went wrong...", error);
+    });
 ```
 
 
@@ -210,11 +214,13 @@ project.addBlob(blob, {}, function(error, id) {
 Using promises:
 
 ```javascript
-project.addBlob(blob).then(function(id) {
-    console.log("ok, blobId = " + id);
-}).catch(function(error) {
-    console.error("Something went wrong...", error);
-});
+project.addBlob(blob)
+    .then(function(id) {
+        console.log("ok, blobId = " + id);
+    })
+    .catch(function(error) {
+        console.error("Something went wrong...", error);
+    });
 ```
 
 #### 2. project.addBlobFromUrl(url, options, callback)
@@ -236,11 +242,13 @@ project.addBlobFromUrl("http://example.com/image.png", {}, function(error, id) {
 Using promises:
 
 ```javascript
-project.addBlobFromUrl("http://example.com/image.png").then(function(id) {
-    console.log("ok, blobId = " + id);
-}).catch(function(error) {
-    console.error("Something went wrong...", error);
-});
+project.addBlobFromUrl("http://example.com/image.png")
+    .then(function(id) {
+        console.log("ok, blobId = " + id);
+    })
+    .catch(function(error) {
+        console.error("Something went wrong...", error);
+    });
 ```
 
 ### Removing a Blob
@@ -276,11 +284,13 @@ project.getBlobAsImage("blobId", function(error, image) {
 Using promises:
 
 ```javascript
-project.getBlobAsImage("blobId").then(function(image) {
-    console.log("ok");
-}).catch(function(error) {
-    console.error("Something went wrong...", error);
-});
+project.getBlobAsImage("blobId")
+    .then(function(image) {
+        console.log("ok");
+    })
+    .catch(function(error) {
+        console.error("Something went wrong...", error);
+    });
 ```
 
 

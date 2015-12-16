@@ -43,7 +43,8 @@ describe("helpers", function() {
             return helpers.httpGet(BASE_URL + "/files/test.txt")
                 .then(function(response) {
                     throw new Error("ShouldNotSucceed");
-                }).catch(function(error) {
+                })
+                .catch(function(error) {
                     expect(error.toString()).to.match(/HttpStatus415/);
                 });
         });
@@ -52,7 +53,8 @@ describe("helpers", function() {
             return helpers.httpGet(BASE_URL + "/files/foobar")
                 .then(function(response) {
                     throw new Error("ShouldNotSucceed");
-                }).catch(function(error) {
+                })
+                .catch(function(error) {
                     expect(error.toString()).to.match(/HttpStatus404/);
                 });
         });
@@ -61,7 +63,8 @@ describe("helpers", function() {
             return helpers.httpGet("foobar/baz")
                 .then(function(response) {
                     throw new Error("ShouldNotSucceed");
-                }).catch(function(error) {
+                })
+                .catch(function(error) {
                     expect(error.toString()).to.match(/HttpStatus/);
                 });
         });
