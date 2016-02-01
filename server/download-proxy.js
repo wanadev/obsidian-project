@@ -35,7 +35,7 @@ function downloadProxy(options) {
         try {
             request.get(url)
                 .on("response", function(response) {
-                    response.headers.server = "WanadevDownloadProxy";
+                    response.headers.server = "ObsidianProjectDownloadProxy";
                     if (response.statusCode != 200) {
                         res.sendStatus(404);
                     }

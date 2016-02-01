@@ -35,10 +35,10 @@ module.exports = function(grunt) {
 
         shell: {
             serverStart: {
-                command: "node node_modules/.bin/pm2 start -f test/server/server.js --name=wanadev-proxy-server-test --watch && sleep 1"
+                command: "node node_modules/.bin/pm2 start -f test/server/server.js --name=obsidian-proxy-server-test --watch && sleep 1"
             },
             serverStop: {
-                command: "node node_modules/.bin/pm2 delete wanadev-proxy-server-test"
+                command: "node node_modules/.bin/pm2 delete obsidian-proxy-server-test"
             }
         }
     });

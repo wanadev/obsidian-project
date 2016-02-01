@@ -1,7 +1,7 @@
 {
-  "name": "wanadev-project-manager",
-  "version": "0.0.0",
-  "description": "",
+  "name": "obsidian-project",
+  "version": "1.0.0",
+  "description": "Library to manage Wanadev's obsidian projects",
   "main": "lib/index.js",
   "private": true,
   "scripts": {
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.wanadev.org:interne/wanadev-project-manager.git"
+    "url": "git+https://github.com/wanadev/obsidian-project.git"
   },
-  "author": "Wanadev",
-  "license": "proprietary",
+  "author": "Wanadev <http://www.wanadev.fr/>",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "abitbol-serializable": "^1.0.0",
     "lodash": "^4.1.0",
