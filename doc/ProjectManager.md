@@ -1,6 +1,6 @@
-# WanadevProjectManager: ProjecTManager
+# obsidian-project: ProjectManager
 
-`SerializedManager` is an class that can manage a project. Features:
+`ProjectManager` is an class that can manage a project. Features:
 
 * Save a project as a Wanadev Project Format file (WPRJ),
 * Load a save project from a WPRJ file,
@@ -14,15 +14,15 @@
 Example:
 
 ```javascript
-var ProjectManager = require("wanadev-project-manager/lib/ProjectManager");
+var ProjectManager = require("obsidian-project/lib/ProjectManager");
 
 var project = new ProjectManager({
-    fileExt: "wprj",      // Default extention for generated files (e.g. "kzd", "wnp", "xbly")
+    fileExt: "wprj",      // Default extention for generated files (e.g. "kzd", "wnp",...)
     metadata: {
         // any metadata you want
     },
     wprjOptions: {
-        type: "GENERIC"   // Project type (uppercase, 10 char max. e.g.: "KAZADECOR", "WANAPLAN", "XBLY")
+        type: "GENERIC"   // Project type (uppercase, 10 char max. e.g.: "KAZADECOR", "WANAPLAN",...)
     }
 });
 ```
@@ -111,13 +111,12 @@ project.openFromUrl("http://example.com/project.wprj")
 ```
 
 
-
 ## Structures And Layers
 
 ### Adding a Structure To The Project
 
 ```javascript
-var Structure = require("wanadev-project-manager/lib/Structure");
+var Structure = require("obsidian-project/lib/Structure");
 
 var structure = new Structure();
 var layerName = "default";
