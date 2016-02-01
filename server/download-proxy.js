@@ -3,7 +3,7 @@
 var request = require("request");
 var _ = require("lodash");
 
-var DEFAULT_ALLOWED_MIMES = ["image/.+", "application/x-wanadev-project"];
+var DEFAULT_ALLOWED_MIMES = ["image/.+", "application/x-obsidian-project"];
 
 function downloadProxy(options) {
     options = options || {};
