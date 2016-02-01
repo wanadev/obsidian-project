@@ -28,7 +28,7 @@ imageData64 += "8LEg0LF8qDZQAAAAA9SURBVAgdDcHBDQAhDAPBLQfRD/2c8opcBfILpcrzDCeY4P
 imageData64 += "VbhUuC+sJ3zITTFB6Q+sNpbXpblFamwlO/JFNIn9yzLB/AAAAAElFTkSuQmCC";
 
 var expect = require("expect.js");
-var WProjectFile = require("wanadev-project-format");
+var ObsidianProjectFile = require("obsidian-file");
 
 var ProjectManager = require("../lib/ProjectManager.js");
 var Structure = require("../lib/Structure.js");
@@ -40,7 +40,7 @@ describe("ProjectManager", function() {
 
         it("has the right default mimetype and file extention", function() {
             var project = new ProjectManager();
-            expect(project.mimetype).to.equal("application/x-wanadev-project");
+            expect(project.mimetype).to.equal("application/x-obsidian-project");
             expect(project.fileExt).to.equal("wprj");
 
             var project2 = new ProjectManager({
@@ -233,7 +233,7 @@ describe("ProjectManager", function() {
 
         it("can export the project as a Node Buffer", function() {
             var buffer = project.saveAsBuffer();
-            expect(WProjectFile.isWanadevProjectFile(buffer)).to.be.ok();
+            expect(ObsidianProjectFile.isObsidianProjectFile(buffer)).to.be.ok();
         });
 
         it("can export the project as a data64 URL", function() {
@@ -252,7 +252,7 @@ describe("ProjectManager", function() {
             var reader = new FileReader();
             reader.onload = function(event) {
                 var b = new Buffer(event.target.result);
-                expect(WProjectFile.isWanadevProjectFile(b)).to.be.ok();
+                expect(ObsidianProjectFile.isObsidianProjectFile(b)).to.be.ok();
                 expect(b.toString()).to.equal(buffer.toString());
                 done();
             };
