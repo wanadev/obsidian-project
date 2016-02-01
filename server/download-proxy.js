@@ -39,13 +39,15 @@ function downloadProxy(options) {
                     if (response.statusCode != 200) {
                         res.sendStatus(404);
                     }
-                    if (!response.headers["content-type"].match(allowedMimes)) {
+                    else if (!response.headers["content-type"].match(allowedMimes)) {
                         res.sendStatus(415);
+                    } else {
+                        this.pipe(res);
                     }
                 }).on("error", function(error) {
                     console.error("[downloadProxy] Error: " + error); // jshint ignore:line
                     res.sendStatus(500);
-                }).pipe(res);
+                });
         } catch (error) {
             console.error("[downloadProxy] Error: " + error); // jshint ignore:line
             res.sendStatus(500);
