@@ -15,7 +15,7 @@
   "license": "proprietary",
   "dependencies": {
     "abitbol-serializable": "^1.0.0",
-    "lodash": "^3.10.1",
+    "lodash": "^4.1.0",
     "obsidian-file": "^2.0.0",
     "q": "^1.4.1",
     "request": "^2.67.0",
