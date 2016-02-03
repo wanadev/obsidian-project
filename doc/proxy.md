@@ -2,37 +2,29 @@
 
 In order to download image or project from an URL, a server-side proxy is required (CORS workaround).
 
-Example implementation using [Expess.js][express]
+This lib requires [obsidian-http-request](https://github.com/wanadev/obsidian-http-request) as server proxy.
+
+Server-side example:
 
 ```javascript
 "use strict";
 
 var express = require("express");
-var downloadProxy = require("obsidian-project/server/download-proxy.js");
+var bodyParser = require("body-parser");
+var proxyMiddleware = require("obsidian-http-request/server/http-proxy");
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3042;
 
 var app = express();
 
-app.use("/proxy/:url", downloadProxy());
+app.use("/proxy", bodyParser.raw({type: "application/json"}));
+app.use("/proxy", proxyMiddleware({
+    maxContentLength: 5 * 1024 * 1024,  // Allows to transfer files of 5 MiB max
+    allowedPorts: [80, 443]             // Allows to download from ports 80 (http) and 443 (https)
+}));
 
-console.log("Starting Obsidian Project Proxy Server on 0.0.0.0:" + PORT);
+console.log("Starting Obsidian HTTP Request Proxy Test Server on 0.0.0.0:" + PORT);
 app.listen(PORT);
 ```
 
-__NOTE:__ By default, proxy only accept the following mimetype: `image/.+` and `application/x-obsidian-project`.
-To authorize more mimetype you can initialize the proxy middleware like this (regexp allowed):
-
-
-```javascript
-app.use("/proxy/:url", downloadProxy({
-    allowedMimes: [
-        "application/octet-stream",
-        "application/x-obsidian-.+"
-    ]
-}));
-```
-
-
-
-[express]: http://expressjs.com/en/index.html
+__NOTE:__ The proxy **MUST** run on the same origin (same domain, same port) as the app's HTML page.
