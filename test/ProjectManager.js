@@ -359,7 +359,7 @@ describe("ProjectManager", function() {
 
         it("can add a blob from a Blob", function(done) {
             var project = new ProjectManager();
-            var blob = helpers.createBlob([imageBuffer.toArrayBuffer()], {type: "image/png"});
+            var blob = helpers.createBlob([imageBuffer], {type: "image/png"});
 
             project.addBlob(blob, {}, function(error, id) {
                 expect(error).to.be(null);
@@ -371,7 +371,7 @@ describe("ProjectManager", function() {
 
         it("can add a blob from a Blob (promise)", function() {
             var project = new ProjectManager();
-            var blob = helpers.createBlob([imageBuffer.toArrayBuffer()], {type: "image/png"});
+            var blob = helpers.createBlob([imageBuffer], {type: "image/png"});
 
             return project.addBlob(blob)
                 .then(function(id) {
