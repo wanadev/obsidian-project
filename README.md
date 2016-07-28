@@ -14,6 +14,7 @@ Documentation:
 
 ## Changelog
 
+* **2.0.3:** Fixes ignored options and mimetype in `project.addBlob()`
 * **2.0.2:** Small fix
 * **2.0.1:** Updates dependencies
 * **2.0.0:** First public release
