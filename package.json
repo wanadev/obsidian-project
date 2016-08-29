@@ -4,7 +4,9 @@
   "description": "Library to manage Wanadev's obsidian projects",
   "main": "lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/grunt test"
+    "test": "./node_modules/.bin/grunt test",
+    "start": "pm2 start -f test/server/server.js --name=obsidian-proxy-server-test --watch && sleep 1",
+    "stop": "pm2 delete obsidian-proxy-server-test"
   },
   "repository": {
     "type": "git",
