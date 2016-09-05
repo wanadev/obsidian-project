@@ -1,163 +1,210 @@
 "use strict";
 
+var lodash = require("lodash");
 var expect = require("expect.js");
 var History = require("../lib/History.js");
 
+var pm;
+var defaultPM = {
+    layers: {
+        l0: [{ id: "0_0" }, { id: "0_1" }, { id: "0_2" }],
+        l1: [{ id: "1_0" }, { id: "1_1" }],
+        l2: [{ id: "2_0" }]
+    }
+};
+
 describe("History", function() {
 
-    it("can set level", function() {
-        var history = new History();
-        expect(history.level).to.equal(0);
-
-        history.level = 5;
-        expect(history.level).to.equal(5);
-
-        var history2 = new History({ level: 7 });
-        expect(history2.level).to.equal(7);
+    beforeEach(function() {
+        pm = lodash.clone(defaultPM);
     });
 
-    it.skip("can save snapshots", function() {
-        var history = new History({ level: 5 });
-        expect(history.snapshotsCount).to.equal(0);
+    describe("LENGTH", function() {
 
-        history.saveSnapshot({ x: 1, z: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
-        expect(history.snapshotsCount).to.equal(3);
+        it("can set max length", function() {
+            var history = new History(pm);
+            expect(history.maxLength).to.equal(0);
+
+            history.maxLength = 5;
+            expect(history.maxLength).to.equal(5);
+
+            var history2 = new History(pm, { maxLength: 3 });
+            expect(history2.maxLength).to.equal(3);
+        });
+
+        it.skip("is increased up to max length", function() {
+            var history = new History(pm, { maxLength: 3 });
+            expect(history.length).to.equal(0);
+
+            history.snapshot();
+            history.snapshot();
+            expect(history.length).to.equal(2);
+
+            history.snapshot();
+            history.snapshot();
+            expect(history.length).to.equal(3);
+        });
+
+        it.skip("keeps max length the same", function() {
+            var history = new History(pm, { maxLength: 3 });
+            expect(history.maxLength).to.equal(3);
+
+            history.snapshot();
+            history.snapshot();
+            expect(history.maxLength).to.equal(3);
+
+            history.snapshot();
+            history.snapshot();
+            expect(history.maxLength).to.equal(3);
+        });
+
+        it.skip("removes old snapshots when max length is changed", function() {
+            var history = new History(pm, { maxLength: 3 });
+            expect(history.maxLength).to.equal(3);
+            history.snapshot();
+            history.snapshot();
+            expect(history.maxLength).to.equal(3);
+
+            history.maxLength = 1;
+            expect(history.maxLength).to.equal(1);
+            expect(history.length).to.equal(1);
+        });
+
     });
 
-    it.skip("can undo snapshots", function() {
-        var history = new History({ level: 5 });
-        history.saveSnapshot({ x: 1, z: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
+    describe("NAVIGATING", function() {
 
-        var snapshot = history.undoSnapshot();
-        expect(snapshot).to.only.have.keys(["x", "y"]);
-        expect(snapshot.x).to.equal(2);
-        expect(snapshot.y).to.equal(2);
+        it.skip("can go back", function() {
+            var history = new History(pm, { maxLength: 5 });
+            history.snapshot();
 
-        snapshot = history.undoSnapshot();
-        expect(snapshot).to.only.have.keys(["x", "z"]);
-        expect(snapshot.x).to.equal(1);
-        expect(snapshot.z).to.equal(1);
+            pm.layers.l1 = [{ id: "1_0", extra: "1_0" }];
+            pm.layers.l3 = [{ id: "3_0" }];
+            history.snapshot();
+
+            expect(pm).to.only.have.key("layers");
+            expect(pm.layers).to.only.have.keys("l0", "l1", "l2", "l3");
+            expect(pm.layers.l0).to.be.eql(defaultPM.layers.l0);
+            expect(pm.layers.l1).to.have.length(1);
+            expect(pm.layers.l1[0]).to.only.have.keys("id", "extra");
+            expect(pm.layers.l1[0].id).to.be.equal("1_0");
+            expect(pm.layers.l1[0].extra).to.be.equal("1_0");
+            expect(pm.layers.l2).to.be.eql(defaultPM.layers.l1);
+            expect(pm.layers.l3).to.have.length(1);
+            expect(pm.layers.l3[0]).to.only.have.key("id");
+            expect(pm.layers.l3[0].id).to.be.equal("3_0");
+
+            history.back();
+            expect(pm).to.eql(defaultPM);
+        });
+
+        it.skip("can go back and forth", function() {
+            var history = new History(pm, { maxLength: 5 });
+            history.snapshot();
+
+            pm.layers.l1 = [{ id: "1_0", extra: "1_0" }];
+            pm.layers.l3 = [{ id: "3_0" }];
+            history.snapshot();
+
+            history.back();
+            history.forward();
+            expect(pm).to.only.have.key("layers");
+            expect(pm.layers).to.only.have.keys("l0", "l1", "l2", "l3");
+            expect(pm.layers.l0).to.be.eql(defaultPM.layers.l0);
+            expect(pm.layers.l1).to.have.length(1);
+            expect(pm.layers.l1[0]).to.only.have.keys("id", "extra");
+            expect(pm.layers.l1[0].id).to.be.equal("1_0");
+            expect(pm.layers.l1[0].extra).to.be.equal("1_0");
+            expect(pm.layers.l2).to.be.eql(defaultPM.layers.l1);
+            expect(pm.layers.l3).to.have.length(1);
+            expect(pm.layers.l3[0]).to.only.have.key("id");
+            expect(pm.layers.l3[0].id).to.be.equal("3_0");
+        });
+
+        it.skip("won't go too far", function() {
+            var history = new History(pm, { maxLength: 5 });
+            history.snapshot();
+            pm.layers.l3 = [{ id: "3_0" }];
+            history.snapshot();
+
+            history.back();
+            history.back(); // Too far!
+            expect(pm).to.eql(defaultPM);
+
+            history.forward();
+            expect(pm).to.only.have.key("layers");
+            expect(pm.layers).to.only.have.keys("l0", "l1", "l2", "l3");
+            expect(pm.layers.l0).to.be.eql(defaultPM.layers.l0);
+            expect(pm.layers.l1).to.be.eql(defaultPM.layers.l1);
+            expect(pm.layers.l2).to.be.eql(defaultPM.layers.l2);
+            expect(pm.layers.l3).to.have.length(1);
+            expect(pm.layers.l3[0]).to.only.have.key("id");
+            expect(pm.layers.l3[0].id).to.be.equal("3_0");
+
+            history.go(-2); // Too far!
+            expect(pm).to.eql(defaultPM);
+        });
+
+        it.skip("deletes old snapshots automatically", function() {
+            var history = new History(pm, { maxLength: 5 });
+            pm.layers.l1[0].id = "1_0_1";
+            history.snapshot();
+            pm.layers.l1[0].id = "1_0_2";
+            history.snapshot();
+            pm.layers.l1[0].id = "1_0_3";
+            history.snapshot();
+            pm.layers.l1[0].id = "1_0_4";
+            history.snapshot();
+            pm.layers.l1[0].id = "1_0_5";
+            history.snapshot();
+            pm.layers.l1[0].id = "1_0_6";
+            history.snapshot();
+            pm.layers.l1[0].id = "1_0_7";
+            history.snapshot();
+
+            history.go(-5);
+            expect(pm.layers).to.only.have.keys("l0", "l1", "l2");
+            expect(pm.layers.l0).to.be.eql(defaultPM.layers.l0);
+            expect(pm.layers.l1).to.have.length(1);
+            expect(pm.layers.l1[0]).to.only.have.key("id");
+            expect(pm.layers.l1[0].id).to.be.equal("1_0_3");
+            expect(pm.layers.l2).to.be.eql(defaultPM.layers.l2);
+            expect(history.try(-1)).to.be.equal(0);
+        });
+
+        it.skip("deletes branched snapshots automatically", function() {
+            var history = new History(pm, { maxLength: 5 });
+            history.snapshot();
+            history.snapshot();
+            history.snapshot();
+            history.snapshot();
+
+            history.back();
+            history.back();
+            expect(history.length).to.be(4);
+
+            history.snapshot();
+            expect(pm).to.only.have.key("layers");
+            expect(pm.layers).to.only.have.keys("l0", "l1", "l2");
+            expect(history.length).to.be(3);
+            expect(history.try(1)).to.be(0);
+        });
+
     });
 
-    it.skip("can undo multiple snapshots at once", function() {
-        var history = new History({ level: 5 });
-        history.saveSnapshot({ x: 1, z: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
+    describe("CLEAR", function() {
 
-        var snapshot = history.undoSnapshot(2);
-        expect(snapshot).to.only.have.keys(["x", "z"]);
-        expect(snapshot.x).to.equal(1);
-        expect(snapshot.z).to.equal(1);
-    });
+        it.skip("removes everything", function() {
+            var history = new History(pm, { maxLength: 5 });
+            history.snapshot();
+            history.snapshot();
+            history.snapshot();
+            expect(history.length).to.be(3);
 
-    it.skip("can redo snapshots", function() {
-        var history = new History({ level: 5 });
-        history.saveSnapshot({ x: 1, z: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
-        history.undoSnapshot(2);
+            history.clear();
+            expect(history.length).to.be(0);
+        });
 
-        var snapshot = history.redoSnapshot();
-        expect(snapshot).to.only.have.keys(["x", "y"]);
-        expect(snapshot.x).to.equal(2);
-        expect(snapshot.y).to.equal(2);
-
-        snapshot = history.redoSnapshot();
-        expect(snapshot).to.only.have.keys(["x"]);
-        expect(snapshot.x).to.equal(3);
-    });
-
-    it.skip("can redo multiple snapshots at once", function() {
-        var history = new History({ level: 5 });
-        history.saveSnapshot({ x: 1, z: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
-        history.undoSnapshot(2);
-
-        var snapshot = history.redoSnapshot(2);
-        expect(snapshot).to.only.have.keys(["x", "y"]);
-        expect(snapshot.x).to.equal(2);
-        expect(snapshot.y).to.equal(2);
-    });
-
-    it.skip("can get current snapshot", function() {
-        var history = new History({ level: 5 });
-        history.saveSnapshot({ x: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
-
-        var snapshot = history.getSnapshot();
-        expect(snapshot).to.only.have.key("x");
-        expect(snapshot.x).to.equal(3);
-
-        history.undoSnapshot();
-        snapshot = history.getSnapshot();
-        expect(snapshot).to.only.have.keys(["x", "y"]);
-        expect(snapshot.x).to.equal(2);
-        expect(snapshot.y).to.equal(2);
-
-        history.redoSnapshot();
-        snapshot = history.getSnapshot();
-        expect(snapshot).to.only.have.key("x");
-        expect(snapshot.x).to.equal(3);
-    });
-
-    it.skip("can clear all snapshots", function() {
-        var history = new History({ level: 5 });
-        history.saveSnapshot({ x: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
-
-        history.clearSnapshots();
-        var snapshot = history.getSnapshot();
-        expect(snapshot).to.equal(null);
-        expect(history.snapshotsCount).to.equal(0);
-    });
-
-    it.skip("deletes old snapshots automatically", function() {
-        var history = new History({ level: 2 });
-        history.saveSnapshot({ x: 1, z: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
-
-        var snapshot = history.undoSnapshot();
-        expect(snapshot).to.only.have.keys(["x", "y"]);
-        expect(snapshot.x).to.equal(2);
-        expect(snapshot.y).to.equal(2);
-
-        snapshot = history.undoSnapshot();
-        expect(snapshot).to.equal(null);
-    });
-
-    it.skip("deletes branched snapshots automatically", function() {
-        var history = new History({ level: 5 });
-        history.saveSnapshot({ x: 1, z: 1 });
-        history.saveSnapshot({ x: 2, y: 2 });
-        history.saveSnapshot({ x: 3 });
-        history.saveSnapshot({ x: 4, y: 4, z: 4 });
-        history.saveSnapshot({ y: 5 });
-
-        history.undoSnapshot(3);
-        history.saveSnapshot({ y: 6, z: 6 });
-        expect(history.snapshotsCount).to.equal(3);
-
-        var snapshot = history.getSnapshot();
-        expect(snapshot).to.only.have.keys(["y", "z"]);
-        expect(snapshot.y).to.equal(6);
-        expect(snapshot.z).to.equal(6);
-
-        snapshot = history.redoSnapshot();
-        expect(snapshot).to.equal(null);
-
-        snapshot = history.undoSnapshot();
-        expect(snapshot).to.only.have.keys(["x", "y"]);
-        expect(snapshot.x).to.equal(2);
-        expect(snapshot.y).to.equal(2);
     });
 
 });
