@@ -193,6 +193,60 @@ describe("ProjectManager", function() {
             expect(project.structures).to.be.empty();
         });
 
+        it("can move a structure to another layer", function() {
+            var project = new ProjectManager();
+            var structure = new Structure();
+            project.addStructure(structure);
+
+            project.setStructureLayer(structure, "foo");
+            expect(structure.layer).to.be(project.layers.foo);
+            expect(project.layers.default).to.be.empty();
+
+            project.setStructureLayer(structure);
+            expect(structure.layer).to.be(project.layers.default);
+            expect(project.layers.foo).to.be.empty();
+        });
+
+        it("can change a structure's index within its layer", function() {
+            var project = new ProjectManager();
+            var structureA = new Structure();
+            var structureB = new Structure();
+            var structureC = new Structure();
+            project.addStructure(structureA);
+            project.addStructure(structureB);
+            project.addStructure(structureC);
+
+            project.moveStructure(structureA, 1);
+            expect(project.layers.default[0]).to.be(structureB);
+            expect(project.layers.default[1]).to.be(structureA);
+            expect(project.layers.default[2]).to.be(structureC);
+
+            project.moveStructure(structureC, -2);
+            expect(project.layers.default[0]).to.be(structureC);
+            expect(project.layers.default[1]).to.be(structureB);
+            expect(project.layers.default[2]).to.be(structureA);
+
+            project.setStructureIndex(structureA, 1);
+            expect(project.layers.default[0]).to.be(structureC);
+            expect(project.layers.default[1]).to.be(structureA);
+            expect(project.layers.default[2]).to.be(structureB);
+
+            project.setStructureIndex(structureB, -2);
+            expect(project.layers.default[0]).to.be(structureC);
+            expect(project.layers.default[1]).to.be(structureB);
+            expect(project.layers.default[2]).to.be(structureA);
+
+            project.setStructureIndex(structureC, 5);
+            expect(project.layers.default[0]).to.be(structureB);
+            expect(project.layers.default[1]).to.be(structureA);
+            expect(project.layers.default[2]).to.be(structureC);
+
+            project.setStructureIndex(structureA, -5);
+            expect(project.layers.default[0]).to.be(structureA);
+            expect(project.layers.default[1]).to.be(structureB);
+            expect(project.layers.default[2]).to.be(structureC);
+        });
+
     });
 
     describe("OPEN / SAVE", function() {

@@ -157,6 +157,33 @@ project.layers;                 // -> {layerName: [Structure, ...], ...}
 project.layers[layerName];      // -> [Structure, ...]
 ```
 
+### Moving Structures
+
+One can change the layer a structure is attached to:
+
+```javascript
+project.setStructureLayer(structure, layerName);
+project.setStructureLayer(structureID, layerName);
+```
+
+The structure will be added to the end of the new layer, or not moved at all if the structure is already on the target layer.
+* `layerName` is **optional**. If it is not provided, the structure will be moved to a layer called `"default"`.
+
+A structure can also be moved easily within a layer:
+
+```javascript
+project.moveStructure(structure, delta);
+project.moveStructure(structureID, delta);
+project.setStructureIndex(structure, index);
+project.setStructureIndex(structureID, index);
+```
+
+* `moveStructure` will change the index of the structure in its current layer relatively to its current index.
+  * `delta` is a relative number. Using a negative number moves the structure closer to the front of its current layer.
+* `setStructureIndex` is the absolute version of `moveStructure`. Passing a negative `index` means from the end of the layer. `-1` being the last index.
+
+__NOTE:__ For all these functions, the layer is certified not to be left with holes. This means that moving a structure to an index bigger than the current layer's size will result in the structure being moved to the end of it.
+
 ### Adding Layers
 
 Layers are automatically added when you add a structure to an unexisting layer, but you can also add them manually:
