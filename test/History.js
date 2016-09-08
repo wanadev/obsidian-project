@@ -219,6 +219,34 @@ describe("History", function() {
 
     });
 
+    describe("ORDER", function() {
+
+        it("moves structures back to their correct layer", function() {
+            var history = new History(pm, { maxLength: 5 });
+            history.snapshot();
+            pm.setStructureLayer(pm.layers.l0[0], "l3");
+            history.snapshot();
+
+            history.back();
+            expectLayer(pm.layers.l0, defaultPM.layers.l0);
+            expectLayer(pm.layers.l1, defaultPM.layers.l1);
+            expectLayer(pm.layers.l2, defaultPM.layers.l2);
+        });
+
+        it("moves structures within its layer", function() {
+            var history = new History(pm, { maxLength: 5 });
+            history.snapshot();
+            pm.setStructureIndex(pm.layers.l0[0], 1);
+            history.snapshot();
+
+            history.back();
+            expectLayer(pm.layers.l0, defaultPM.layers.l0);
+            expectLayer(pm.layers.l1, defaultPM.layers.l1);
+            expectLayer(pm.layers.l2, defaultPM.layers.l2);
+        });
+
+    });
+
     describe("CLEAR", function() {
 
         it("removes everything", function() {
