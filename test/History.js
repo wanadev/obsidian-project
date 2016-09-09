@@ -72,9 +72,6 @@ describe("History", function() {
             var history = new History(project);
             expect(history.maxLength).to.equal(0);
 
-            history.maxLength = 5;
-            expect(history.maxLength).to.equal(5);
-
             var history2 = new History(project, { maxLength: 3 });
             expect(history2.maxLength).to.equal(3);
         });
@@ -103,18 +100,6 @@ describe("History", function() {
             history.snapshot();
             history.snapshot();
             expect(history.maxLength).to.equal(3);
-        });
-
-        it("removes old snapshots when max length is changed", function() {
-            var history = new History(project, { maxLength: 3 });
-            expect(history.maxLength).to.equal(3);
-            history.snapshot();
-            history.snapshot();
-            expect(history.maxLength).to.equal(3);
-
-            history.maxLength = 1;
-            expect(history.maxLength).to.equal(1);
-            expect(history.length).to.equal(1);
         });
 
     });
