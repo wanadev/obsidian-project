@@ -1,6 +1,9 @@
 "use strict";
 
 var expect = require("expect.js");
+var httpRequest = require("obsidian-http-request");
+var Q = require("q");
+
 var History = require("../lib/History.js");
 var ProjectManager = require("../lib/ProjectManager.js");
 var Structure = require("../lib/Structure.js");
@@ -32,24 +35,20 @@ defaultProject.addStructure(new OwnStructure({ x: "1_0" }), "l1");
 defaultProject.addStructure(new OwnStructure({ x: "1_1" }), "l1");
 defaultProject.addStructure(new OwnStructure({ x: "2_0" }), "l2");
 
-var buffer = new Buffer([
-    0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d,
-    0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10,
-    0x02, 0x03, 0x00, 0x00, 0x00, 0x62, 0x9d, 0x17, 0xf2, 0x00, 0x00, 0x00,
-    0x09, 0x50, 0x4c, 0x54, 0x45, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0xff,
-    0xff, 0xff, 0x67, 0x19, 0x64, 0x1e, 0x00, 0x00, 0x00, 0x01, 0x62, 0x4b,
-    0x47, 0x44, 0x00, 0x88, 0x05, 0x1d, 0x48, 0x00, 0x00, 0x00, 0x09, 0x70,
-    0x48, 0x59, 0x73, 0x00, 0x00, 0x0e, 0xc4, 0x00, 0x00, 0x0e, 0xc4, 0x01,
-    0x95, 0x2b, 0x0e, 0x1b, 0x00, 0x00, 0x00, 0x07, 0x74, 0x49, 0x4d, 0x45,
-    0x07, 0xdf, 0x0b, 0x12, 0x0d, 0x0b, 0x17, 0xca, 0x83, 0x65, 0x00, 0x00,
-    0x00, 0x00, 0x3d, 0x49, 0x44, 0x41, 0x54, 0x08, 0x1d, 0x0d, 0xc1, 0xc1,
-    0x0d, 0x00, 0x21, 0x0c, 0x03, 0xc1, 0x2d, 0x07, 0xd1, 0x0f, 0xfd, 0x9c,
-    0xf2, 0x8a, 0x5c, 0x05, 0xf2, 0x0b, 0xa5, 0xca, 0xf3, 0x0c, 0x27, 0x98,
-    0xe0, 0xf3, 0x15, 0x6e, 0x15, 0x2e, 0x0b, 0xeb, 0x09, 0xdf, 0x32, 0x13,
-    0x4c, 0x50, 0x7a, 0x43, 0xeb, 0x0d, 0xa5, 0xb5, 0xe9, 0x6e, 0x51, 0x5a,
-    0x9b, 0x09, 0x4e, 0xfc, 0x91, 0x4d, 0x22, 0x7f, 0x72, 0xcc, 0xb0, 0x7f,
-    0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4e, 0x44, 0xae, 0x42, 0x60, 0x82
-]);
+var imageData64 = "data:image/png;base64,";
+imageData64 += "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAACVBMVEUAAAD/AAD//";
+imageData64 += "/9nGWQeAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAd0SU1FB9";
+imageData64 += "8LEg0LF8qDZQAAAAA9SURBVAgdDcHBDQAhDAPBLQfRD/2c8opcBfILpcrzDCeY4PM";
+imageData64 += "VbhUuC+sJ3zITTFB6Q+sNpbXpblFamwlO/JFNIn9yzLB/AAAAAElFTkSuQmCC";
+
+function loadImage(url) {
+    return Q.Promise(function(resolve, reject) {
+        var image = new Image();
+        image.onload = resolve.bind(undefined, image);
+        image.onerror = reject;
+        image.src = url;
+    });
+}
 
 function expectLayer(layer1, layer2) {
     expect(layer1).to.have.length(layer2.length);
@@ -265,48 +264,72 @@ describe("History", function() {
 
     describe("BLOBS", function() {
 
-        it.skip("can revert blobs", function() {
+        it("can revert blobs", function() {
             var history = new History(project, { maxLength: 5 });
             history.snapshot();
 
-            var id = project.addBlobFromBuffer(buffer);
-            expect(project.$data.wprjFile.getBlob(id)).to.be(buffer);
+            var id = project.addBlobFromData64Url(imageData64);
+            expect(project.$data.wprjFile.getBlob(id)).not.to.be(null);
             history.snapshot();
 
             history.back();
             expect(project.$data.wprjFile.getBlob(id)).to.be(null);
 
             history.forward();
-            expect(project.$data.wprjFile.getBlob(id)).to.be(buffer);
+            expect(project.$data.wprjFile.getBlob(id)).not.to.be(null);
 
             project.removeBlob(id);
             expect(project.$data.wprjFile.getBlob(id)).to.be(null);
             history.snapshot();
 
             history.back();
-            expect(project.$data.wprjFile.getBlob(id)).to.be(buffer);
+            expect(project.$data.wprjFile.getBlob(id)).not.to.be(null);
         });
 
-        it.skip("closes old blobs automatically", function() {
+        it("closes old blobs automatically", function() {
             var history = new History(project, { maxLength: 2 });
-            var id = project.addBlobFromBuffer(buffer);
-            var blob = project.getBlob(id);
+            var id = project.addBlobFromData64Url(imageData64);
+            var url = project.getBlobAsUrl(id);
             history.snapshot();
 
             project.removeBlob(id);
             history.snapshot();
-            expect(blob.isClosed).to.be(false);
 
-            history.snapshot();
-            expect(blob.isClosed).to.be(true);
+            return loadImage(url)
+                .catch(function (e) {
+                    throw new Error("ShouldNotBeCalled_InvalidURL");
+                })
+                .then(function() {
+                    history.snapshot();
+                })
+                .then(loadImage.bind(undefined, url))
+                .then(function() {
+                    throw new Error("ShouldNotBeCalled_ValidURL");
+                })
+                .catch(function(e) {
+                    expect(e).not.to.match(/ShouldNotBeCalled/);
+                });
         });
 
-        it.skip("closes blobs never seen in snapshots", function() {
+        it("allows to close blobs never seen in snapshots", function() {
             var history = new History(project, { maxLength: 5 });
-            var id = project.addBlobFromBuffer(buffer);
-            var blob = project.getBlob(id);
-            project.removeBlob(id);
-            expect(blob.isClosed).to.be(true);
+            var id = project.addBlobFromData64Url(imageData64);
+            var url = project.getBlobAsUrl(id);
+
+            return loadImage(url)
+                .catch(function (e) {
+                    throw new Error("ShouldNotBeCalled_InvalidURL");
+                })
+                .then(function() {
+                    project.removeBlob(id);
+                })
+                .then(loadImage.bind(undefined, url))
+                .then(function() {
+                    throw new Error("ShouldNotBeCalled_ValidURL");
+                })
+                .catch(function(e) {
+                    expect(e).not.to.match(/ShouldNotBeCalled/);
+                });
         });
 
     });
