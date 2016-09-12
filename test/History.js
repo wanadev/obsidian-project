@@ -153,8 +153,8 @@ describe("History", function() {
             expectLayer(project.layers.l0, defaultProject.layers.l0);
             expectLayer(project.layers.l1, defaultProject.layers.l1);
             expectLayer(project.layers.l2, defaultProject.layers.l2);
-            expect(history.try(-5)).to.be.equal(0);
-            expect(history.try(5)).to.be.equal(1);
+            expect(history.simulate(-5)).to.be.equal(0);
+            expect(history.simulate(5)).to.be.equal(1);
 
             history.forward();
             expectLayer(project.layers.l0, defaultProject.layers.l0);
@@ -162,15 +162,15 @@ describe("History", function() {
             expect(project.layers.l1[0].x).to.be.equal("1_0b");
             expect(project.layers.l1[1].x).to.be.eql(defaultProject.layers.l1[1].x);
             expectLayer(project.layers.l2, defaultProject.layers.l2);
-            expect(history.try(-5)).to.be.equal(-1);
-            expect(history.try(5)).to.be.equal(0);
+            expect(history.simulate(-5)).to.be.equal(-1);
+            expect(history.simulate(5)).to.be.equal(0);
 
             history.go(-2); // Too far!
             expectLayer(project.layers.l0, defaultProject.layers.l0);
             expectLayer(project.layers.l1, defaultProject.layers.l1);
             expectLayer(project.layers.l2, defaultProject.layers.l2);
-            expect(history.try(-5)).to.be.equal(0);
-            expect(history.try(5)).to.be.equal(1);
+            expect(history.simulate(-5)).to.be.equal(0);
+            expect(history.simulate(5)).to.be.equal(1);
         });
 
         it("deletes old snapshots automatically", function() {
@@ -195,7 +195,7 @@ describe("History", function() {
             expect(project.layers.l1[0].x).to.be.equal("1_0_3");
             expect(project.layers.l1[1].x).to.be.eql(defaultProject.layers.l1[1].x);
             expectLayer(project.layers.l2, defaultProject.layers.l2);
-            expect(history.try(-1)).to.be.equal(0);
+            expect(history.simulate(-1)).to.be.equal(0);
         });
 
         it("deletes branched snapshots automatically", function() {
@@ -214,7 +214,7 @@ describe("History", function() {
             expectLayer(project.layers.l1, defaultProject.layers.l1);
             expectLayer(project.layers.l2, defaultProject.layers.l2);
             expect(history.length).to.be(3);
-            expect(history.try(1)).to.be(0);
+            expect(history.simulate(1)).to.be(0);
         });
 
     });
