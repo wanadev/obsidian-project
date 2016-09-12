@@ -1,6 +1,6 @@
 # obsidian-project: ProjectManager
 
-`ProjectManager` is an class that can manage a project. Features:
+`ProjectManager` is a class that can manage a project. Features:
 
 * Save a project as a Wanadev Project Format file (WPRJ),
 * Load a save project from a WPRJ file,
