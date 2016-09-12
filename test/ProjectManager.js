@@ -101,6 +101,39 @@ describe("ProjectManager", function() {
 
     });
 
+    describe("VERSIONING", function() {
+
+        it("can convert structures up to current version", function() {
+            var project = new ProjectManager({ version: "0.0.1" });
+            var structure = new Structure({ id: "structure-0" });
+            project.addStructure(structure);
+            var buffer = project.saveAsBuffer();
+
+            project.newEmptyProject();
+            project.setVersion("1.0.0");
+            project.addVersionFilter("0.0.1", "0.4.0", function(sProject) {
+                expect(sProject.layers.default[0].id).to.be("structure-0");
+                sProject.layers.default[0].id = "structure-1";
+                return sProject;
+            });
+            project.addVersionFilter(">=0.1.0 <0.3.0", "1.0.0", function(sProject) {
+                expect().fail();
+            });
+            project.addVersionFilter(">=0.1.0 >=0.3.0", "1.0.0", function(sProject) {
+                expect(sProject.layers.default[0].id).to.be("structure-1");
+                sProject.layers.default[0].id = "structure-2";
+                return sProject;
+            });
+            project.addVersionFilter("^0.9.0", "1.0.0", function(sProject) {
+                expect().fail();
+            });
+
+            project.openFromBuffer(buffer);
+            expect(project.layers.default[0].id).to.be("structure-2");
+        });
+
+    });
+
     describe("LAYERS", function() {
 
         it("can add one or more layers", function() {
