@@ -12,7 +12,7 @@
 Example:
 
 ```javascript
-var ProjectManager = require("obsidian-project/lib/ProjectManager");
+var ProjectManager = require("obsidian-project/lib/project-manager");
 
 var project = new ProjectManager({
     fileExt: "wprj",      // Default extention for generated files (e.g. "kzd", "wnp",...)
@@ -114,7 +114,7 @@ project.openFromUrl("http://example.com/project.wprj")
 ### Adding a Structure To The Project
 
 ```javascript
-var Structure = require("obsidian-project/lib/Structure");
+var Structure = require("obsidian-project/lib/structure");
 
 var structure = new Structure();
 var layerName = "default";

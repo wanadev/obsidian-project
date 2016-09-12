@@ -6,7 +6,7 @@ Please read the documentation of `SerializableClass` (abitbol-serializable) and 
 Example:
 
 ```javascript
-var Structure = require("obsidian-project/lib/Structure");
+var Structure = require("obsidian-project/lib/structure");
 
 var Demo Structure.$extend({
     __name__: "Demo",
