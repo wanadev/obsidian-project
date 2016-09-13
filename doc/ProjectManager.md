@@ -6,10 +6,8 @@
 * Load a save project from a WPRJ file,
 * Projects can have metadata,
 * Projects can have attached resources Blob (images, texts, video, 3D Models,...),
-* TODO ~~Can handle canvas as resource (with history management)~~
-* TODO ~~History management (undo/redo)~~
-* TODO ~~Versionning (apply filters to old projects versions to update them)~~
-* TODO ~~Local save (to allow data recovery on browser crash)~~
+* History management (see `History` class)
+* Versioning (apply filters to old projects in order to update them)
 
 Example:
 
@@ -320,3 +318,34 @@ project.getBlobAsImage("blobId")
 project.getBlobList();  // -> ["blobId1", "blobId2", ...]
 ```
 
+
+## Versioning
+
+One can add a functions to convert project during opening. Example:
+
+```javascript
+// In this example, since version 1.5.0, MyStructure.name is renamed translatableName. And before 1.0.0, it didn't exist anyway.
+project.addVersionFilter(">=1.0.0 <1.5.0", "1.5.0", function(sProject) {
+    for (var i = 0; i < sProject.layers.myLayer.length; ++i) {
+        var structure = sProject.layers.myLayer[i];
+        if (structure.__name__ === "MyStructure") {
+             structure.translatableName = structure.name;
+             delete structure.name;
+        }
+    }
+    return sProject;
+});
+```
+
+This uses the function:
+
+```javascript
+addVersionFilter(sourceSemver, targetVersion, convert)
+```
+
+* `sourceSemver` a [semver](https://github.com/npm/node-semver) string.
+* `targetVersion` the resulting version after the conversion.
+* `convert` a `function(sProject)` callback where:
+  * `sProject` is the project in its serialized form.
+
+__NOTE:__ If there is any ambiguity with filters (for instance, some source versions overlaping), the behaviour is undefined.
