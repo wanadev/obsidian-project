@@ -109,8 +109,8 @@ describe("ProjectManager", function() {
             project.addStructure(structure);
             var buffer = project.saveAsBuffer();
 
-            project.newEmptyProject();
             project.setVersion("1.0.0");
+            project.newEmptyProject();
             project.addVersionFilter("0.0.1", "0.4.0", function(sProject) {
                 expect(sProject.layers.default[0].id).to.be("structure-0");
                 sProject.layers.default[0].id = "structure-1";
