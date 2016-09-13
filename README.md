@@ -14,6 +14,10 @@ Documentation:
 
 ## Changelog
 
+* **2.1.0:**
+  * Histrory management feature implemented (#6)
+  * Versioning filter feature implemented (#7)
+  * Fixes to allow testing on Windows
 * **2.0.3:** Fixes ignored options and mimetype in `project.addBlob()`
 * **2.0.2:** Small fix
 * **2.0.1:** Updates dependencies
