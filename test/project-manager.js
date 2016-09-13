@@ -30,8 +30,8 @@ imageData64 += "VbhUuC+sJ3zITTFB6Q+sNpbXpblFamwlO/JFNIn9yzLB/AAAAAElFTkSuQmCC";
 var expect = require("expect.js");
 var ObsidianProjectFile = require("obsidian-file");
 
-var ProjectManager = require("../lib/ProjectManager.js");
-var Structure = require("../lib/Structure.js");
+var ProjectManager = require("../lib/project-manager.js");
+var Structure = require("../lib/structure.js");
 var helpers = require("../lib/helpers.js");
 
 describe("ProjectManager", function() {

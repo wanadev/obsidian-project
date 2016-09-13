@@ -1,4 +1,4 @@
-# WanadevProjectManager: Structure
+# WanadevProjectManager: Structure (`obsidian-project/lib/structure`)
 
 `Structure` is a `SerializableClass` from which all projects structure should inherit.
 Please read the documentation of `SerializableClass` (abitbol-serializable) and `ProjectManager` before using this class.
@@ -6,7 +6,7 @@ Please read the documentation of `SerializableClass` (abitbol-serializable) and 
 Example:
 
 ```javascript
-var Structure = require("obsidian-project/lib/Structure");
+var Structure = require("obsidian-project/lib/structure");
 
 var Demo Structure.$extend({
     __name__: "Demo",

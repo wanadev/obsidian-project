@@ -1,4 +1,4 @@
-# obsidian-project: History
+# obsidian-project: History (`obsidian-project/lib/history`)
 
 `History` is a class that helps managing over-time changes of a project. Features:
 
@@ -10,7 +10,7 @@
 Example:
 
 ```javascript
-var History = require("obsidian-project/lib/History");
+var History = require("obsidian-project/lib/history");
 
 var history = new History(project, {
     maxLength: 20   // How many snapshots at most (depth of the history stack)

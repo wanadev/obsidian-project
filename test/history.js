@@ -4,9 +4,9 @@ var expect = require("expect.js");
 var httpRequest = require("obsidian-http-request");
 var Q = require("q");
 
-var History = require("../lib/History.js");
-var ProjectManager = require("../lib/ProjectManager.js");
-var Structure = require("../lib/Structure.js");
+var History = require("../lib/history.js");
+var ProjectManager = require("../lib/project-manager.js");
+var Structure = require("../lib/structure.js");
 
 //----- Setup
 

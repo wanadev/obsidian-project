@@ -4,8 +4,8 @@ var NB_STRUCTURES = 1000;
 var NB_BLOBS = 10;
 var BLOB_SIZE = 1024 * 512;  // 512 kiB
 
-var Structure = require("../lib/Structure.js");
-var ProjectManager = require("../lib/ProjectManager.js");
+var Structure = require("../lib/structure.js");
+var ProjectManager = require("../lib/project-manager.js");
 
 var TestStructure = Structure.$extend({
     getProp1: function() { return "abcdefghijklmnopqrstuvwxyz"; },
