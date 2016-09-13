@@ -337,6 +337,15 @@ project.addVersionFilter(">=1.0.0 <1.5.0", "1.5.0", function(sProject) {
 });
 ```
 
-* `sProject` is the project in its serialized form.
+This uses the function:
 
-__NOTE:__ If there is any ambiguity with filters (for instance, some overlaping), the behaviour is undefined.
+```javascript
+addVersionFilter(sourceSemver, targetVersion, convert)
+```
+
+* `sourceSemver` a [semver](https://github.com/npm/node-semver) string.
+* `targetVersion` the resulting version after the conversion.
+* `convert` a `function(sProject)` callback where:
+  * `sProject` is the project in its serialized form.
+
+__NOTE:__ If there is any ambiguity with filters (for instance, some source versions overlaping), the behaviour is undefined.
