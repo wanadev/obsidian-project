@@ -1,4 +1,4 @@
-# obsidian-project: History
+# obsidian-project: History (`obsidian-project/lib/history`)
 
 `History` is a class that helps managing over-time changes of a project. Features:
 
