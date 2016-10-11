@@ -14,6 +14,7 @@ Documentation:
 
 ## Changelog
 
+* **3.0.3:** Fixes history do not call the `destroy()` method of deleted structures
 * **3.0.2:** Fixe
 * **3.0.1:** Dependencies updated and minor bug fixed
 * **3.0.0:** Files renamed, and doc added (yuidoc format)
