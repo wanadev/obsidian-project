@@ -644,6 +644,67 @@ describe("ProjectManager", function() {
             expect(project.getBlobList()).to.contain(id1);
             expect(project.getBlobList()).to.contain(id2);
         });
+
+    });
+
+    describe("HANDLING UNKNOWN STRUCTURES", function() {
+
+        it("raises an error if unknown structure are found in the project", function() {
+            var sample = {
+                __name__: "Project",
+                id: "ba768007-57a3-41f3-8b13-717419b58daa",
+                layers: {
+                    layer1: [{
+                        __name__: "UnkownStructure",
+                        id: "63f73ea3-7149-43da-a2b6-db0a283cfd6d",
+                        param1: "value1",
+                        param2: 2
+                    }]
+                }
+            };
+
+            var project = new ProjectManager();
+
+            var error = null;
+
+            try {
+                project.unserialize(sample);
+            } catch (e) {
+                error = e;
+            }
+
+            expect(error).to.match(/MissingSerializer/);
+        });
+
+        it("can handle unserialization errors", function() {
+            var sample = {
+                __name__: "Project",
+                id: "ba768007-57a3-41f3-8b13-717419b58daa",
+                layers: {
+                    layer1: [{
+                        __name__: "UnkownStructure",
+                        id: "63f73ea3-7149-43da-a2b6-db0a283cfd6d",
+                        param1: "value1",
+                        param2: 2
+                    }]
+                }
+            };
+
+            var handlerCalled = false;
+            var project = new ProjectManager();
+
+            project.unserializationErrorHandler = function(layer, data, error) {
+                handlerCalled = true;
+                expect(layer).to.equal("layer1");
+                expect(data).to.eql(sample.layers.layer1[0]);
+                expect(error).to.match(/MissingSerializer/);
+            };
+
+            project.unserialize(sample);
+
+            expect(handlerCalled).to.be.ok();
+        });
+
     });
 
 });
