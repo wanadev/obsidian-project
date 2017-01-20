@@ -14,6 +14,7 @@ Documentation:
 
 ## Changelog
 
+* **3.1.0:** Adds an unserialization error handler
 * **3.0.4:** Updates `uuid` dependency to 3.0.0
 * **3.0.3:** Fixes history do not call the `destroy()` method of deleted structures
 * **3.0.2:** Fixe
