@@ -1,4 +1,12 @@
-# obsidian-project: ProjectManager (`obsidian-project/lib/project-manager`)
+---
+title: Project Manager
+autotoc: true
+menuOrder: 100
+---
+
+# Project Manager
+
+    obsidian-project/lib/project-manager
 
 `ProjectManager` is a class that can manage a project. Features:
 

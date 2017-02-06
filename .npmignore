@@ -5,3 +5,4 @@ test
 .tern-project
 .travis.yml
 Gruntfile.js
+doc.generated

@@ -1,3 +1,4 @@
 node_modules
 *.generated.js
 defs
+doc.generated

@@ -1,4 +1,12 @@
-# WanadevProjectManager: Structure (`obsidian-project/lib/structure`)
+---
+title: Structures
+autotoc: true
+menuOrder: 200
+---
+
+# Structure
+
+    obsidian-project/lib/structure
 
 `Structure` is a `SerializableClass` from which all projects structure should inherit.
 Please read the documentation of `SerializableClass` (abitbol-serializable) and `ProjectManager` before using this class.

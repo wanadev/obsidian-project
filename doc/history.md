@@ -1,4 +1,12 @@
-# obsidian-project: History (`obsidian-project/lib/history`)
+---
+title: History (undo / redo)
+autotoc: true
+menuOrder: 300
+---
+
+# History (undo / redo)
+
+    obsidian-project/lib/history
 
 `History` is a class that helps managing over-time changes of a project. Features:
 
@@ -34,7 +42,7 @@ Taking snapshots is at the heart of the History. This is up to the developer to 
 
 ```javascript
 history.snapshot();
-history.clear();    // Remove all stored snapshots 
+history.clear();    // Remove all stored snapshots
 ```
 
 __NOTE:__ Project metadata are not saved into the snapshots. Blobs are only saved as references, and therefore any changes to their inner data are not stored.

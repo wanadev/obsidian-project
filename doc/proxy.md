@@ -1,3 +1,9 @@
+---
+title: Server Proxy
+autotoc: true
+menuOrder: 400
+---
+
 # obsidian-project: Server Proxy
 
 In order to download image or project from an URL, a server-side proxy is required (CORS workaround).
