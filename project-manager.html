@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>Project Manager - Obsidian Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+            <link rel="shortcut icon" type="image/png" href="images/obsidian-project-logo.svg" />
+        
+        
+            <link type="text/css" rel="stylesheet" href="style/gruvbox-dark.css" />
+        
+            <link type="text/css" rel="stylesheet" href="style/obsidian.css" />
+        
+    </head>
+
+    <body class=" page-with-nav">
+
+        <div class="page">
+
+            
+                <div id="toggle-mobile-menu" title="Toggle menu">☰</div>
+            
+
+            
+                <nav class="links">
+                    <ul>
+                        <li><a href="https://github.com/wanadev/obsidian-project">Github</a></li><li><a href="https://www.npmjs.com/package/obsidian-project">NPM</a></li>
+                    </ul>
+                </nav>
+            
+
+            <header>
+                <h1>
+                    
+                        <img src="images/obsidian-project-logo.svg"  alt="Obsidian Project logo" />
+                    
+                    <span>Obsidian Project</span>
+                </h1>
+            </header>
+
+            <div class="content">
+
+                
+                    <nav>
+                        
+                            
+
+    <ul class="menu">
+        
+            
+            <li>
+                <a href="index.html" >Home</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="main-concepts.html" >Main Concepts</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="project-manager.html" class="active">Project Manager</a>
+                
+                    
+
+    
+    <ul class="toc">
+        
+            <li>
+                <a href="#structures-and-layers">Structures And Layers</a>
+                
+                    
+    <ul class="toc">
+        
+            <li>
+                <a href="#adding-a-structure-to-the-project">Adding a Structure To The Project</a>
+                
+            </li>
+        
+            <li>
+                <a href="#accessing-the-structures">Accessing The Structures</a>
+                
+            </li>
+        
+    </ul>
+
+                
+            </li>
+        
+            <li>
+                <a href="#embedding-resources-blob-to-the-project">Embedding Resources (Blob) To The Project</a>
+                
+                    
+    <ul class="toc">
+        
+            <li>
+                <a href="#getting-a-blob">Getting a Blob</a>
+                
+            </li>
+        
+    </ul>
+
+                
+            </li>
+        
+            <li>
+                <a href="#versioning">Versioning</a>
+                
+            </li>
+        
+    </ul>
+
+
+
+                
+            </li>
+        
+            
+            <li>
+                <a href="structure.html" >Structures</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="history.html" >History (undo / redo)</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="proxy.html" >Server Proxy</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="project-manager-api.html" >Project Manager Class API</a>
+                
+            </li>
+        
+    </ul>
+
+
+                        
+                    </nav>
+                
+                <article>
+                    <h1 id="project-manager">Project Manager</h1>
+<pre><code class="hljs javascript">ProjectManager = <span class="hljs-built_in">require</span>(<span class="hljs-string">"obsidian-project/lib/project-manager"</span>);</code></pre>
+
+<p><code>ProjectManager</code> is a class that can manage a project. It can:</p>
+<ul>
+<li>Save a project as a Wanadev Project Format file (WPRJ),</li>
+<li>Load a save project from a WPRJ file,</li>
+<li>Projects can have metadata,</li>
+<li>Projects can have attached resources Blob (images, texts, video, 3D Models,...),</li>
+<li>History management (see <a href="./history.html">History</a> class)</li>
+<li>Versioning (apply filters to old projects in order to update them)</li>
+</ul>
+<p>Example:</p>
+<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> ProjectManager = <span class="hljs-built_in">require</span>(<span class="hljs-string">"obsidian-project/lib/project-manager"</span>);
+
+<span class="hljs-keyword">var</span> project = <span class="hljs-keyword">new</span> ProjectManager({
+    <span class="hljs-attr">fileExt</span>: <span class="hljs-string">"wprj"</span>,      <span class="hljs-comment">// Default extention for generated files (e.g. "kzd", "wnp",...)</span>
+    metadata: {
+        <span class="hljs-comment">// any metadata you want</span>
+    },
+    <span class="hljs-attr">wprjOptions</span>: {
+        <span class="hljs-attr">type</span>: <span class="hljs-string">"GENERIC"</span>   <span class="hljs-comment">// Project type (uppercase, 10 char max.)</span>
+    }
+});</code></pre>
+
+
+<h2 id="structures-and-layers">Structures And Layers</h2>
+<p>A project is a list of layers, which are tables of serializable objects called <a href="./structure">Structure</a>.
+Every dynamic data that the project has to store should be a <a href="./structure">Structure</a>.</p>
+<h3 id="adding-a-structure-to-the-project">Adding a Structure To The Project</h3>
+<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> Structure = <span class="hljs-built_in">require</span>(<span class="hljs-string">"obsidian-project/lib/structure"</span>);
+
+<span class="hljs-keyword">var</span> structure = <span class="hljs-keyword">new</span> Structure();
+<span class="hljs-keyword">var</span> layerName = <span class="hljs-string">"default"</span>;
+
+project.addStructure(structure, layerName); <span class="hljs-comment">// layerName is optional</span></code></pre>
+
+<p>A structure can be destroyed, and it will automatically be removed from the project:</p>
+<pre><code class="hljs javascript">structure.destroy();</code></pre>
+
+<h3 id="accessing-the-structures">Accessing The Structures</h3>
+<p>One can access any structure (layer independent):</p>
+<pre><code class="hljs javascript">project.structures;               <span class="hljs-comment">// -&gt; {structureId: Structure, ...}</span>
+project.structures[structureId];  <span class="hljs-comment">// -&gt; Structure</span></code></pre>
+
+<p>Accessing to structures contained in a specific layer:</p>
+<pre><code class="hljs javascript">project.layers;                 <span class="hljs-comment">// -&gt; {layerName: [Structure, ...], ...}</span>
+project.layers[layerName];      <span class="hljs-comment">// -&gt; [Structure, ...]</span></code></pre>
+
+
+<h2 id="embedding-resources-blob-to-the-project">Embedding Resources (Blob) To The Project</h2>
+<p>It is possible to attach blobs to the project:</p>
+<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> blobId = project.addBlobFromUrl(url, options, callback);
+<span class="hljs-comment">// There are also different functions to add blobs from different sources</span></code></pre>
+
+<h3 id="getting-a-blob">Getting a Blob</h3>
+<p>Once a blob has been added, one can get retreive it:</p>
+<pre><code class="hljs javascript">project.getBlobAsBuffer(blobId)</code></pre>
+
+
+<h2 id="versioning">Versioning</h2>
+<p>One can add a functions to convert project during opening. Example:</p>
+<pre><code class="hljs javascript"><span class="hljs-comment">// In this example, since version 1.5.0, MyStructure.name is renamed translatableName. And before 1.0.0, it didn't exist anyway.</span>
+project.addVersionFilter(<span class="hljs-string">"&gt;=1.0.0 &lt;1.5.0"</span>, <span class="hljs-string">"1.5.0"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">sProject</span>) </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; sProject.layers.myLayer.length; ++i) {
+        <span class="hljs-keyword">var</span> structure = sProject.layers.myLayer[i];
+        <span class="hljs-keyword">if</span> (structure.__name__ === <span class="hljs-string">"MyStructure"</span>) {
+             structure.translatableName = structure.name;
+             <span class="hljs-keyword">delete</span> structure.name;
+        }
+    }
+    <span class="hljs-keyword">return</span> sProject;
+});</code></pre>
+
+<p><strong>NOTE:</strong> For more information see <a href="./project-manager-api.html">Project Manager Class API</a>.</p>
+
+                </article>
+            </div>
+
+            <footer>
+                Copyright (c)  2015-2017 Wanadev
+- <a href="http://www.wanadev.fr/">www.wanadev.fr</a><br />
+Unless otherwise specified, this documentation is published under the
+<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en">cc by-sa 3.0</a> license<br />
+Generated using <a href="https://wanadev.github.io/enlightme/\">Enlight'me</a> 0.1.1
+
+            </footer>
+
+        </div>
+
+        <script>
+
+(function() {
+
+    var MENU_UNFOLDED_CLASS = "mobile-menu-unfolded";
+
+    var menuButton = document.getElementById("toggle-mobile-menu");
+    var menuItems = document.querySelectorAll(".content nav a");
+
+    function getAbsolutePosition(element) {
+        if (typeof(element) == "string") {
+            element = document.getElementById(element);
+        }
+        if (!(element instanceof Element)) {
+            return {x: 0, y: 0};
+        }
+
+        var css;
+        var origElement = element;
+
+        try {
+            css = getComputedStyle(element);
+        } catch (e) {
+            return {x: 0, y: 0};
+        }
+
+        if (!css) {
+            return {x: 0, y: 0};
+        }
+
+        var x = -parseInt(css.borderLeftWidth);
+        var y = -parseInt(css.borderTopWidth);
+
+        while (element.offsetParent) {
+            css = getComputedStyle(element);
+
+            x += element.offsetLeft || 0;
+            x += parseInt(css.borderLeftWidth);
+
+            y += element.offsetTop || 0;
+            y += parseInt(css.borderTopWidth);
+
+            element = element.offsetParent;
+        }
+
+        element = origElement;
+
+        while (element.parentNode && !(element instanceof HTMLBodyElement)) {
+            x -= element.scrollLeft || 0;
+            y -= element.scrollTop || 0;
+            element = element.parentNode;
+        }
+
+        return {x: x, y: y};
+    };
+
+    function openMenu() {
+        document.body.classList.add(MENU_UNFOLDED_CLASS);
+    }
+
+    function closeMenu() {
+        document.body.classList.remove(MENU_UNFOLDED_CLASS);
+    }
+
+    function toggleMenu() {
+        document.body.classList.toggle(MENU_UNFOLDED_CLASS);
+    }
+
+    function _onMenuItemClicked(event) {
+        var href = this.getAttribute("href");
+
+        if (href[0] != "#") {
+            return;
+        }
+
+        event.preventDefault();
+
+        var anchor = href.substr(1, href.length-1);
+        var anchorPosition = getAbsolutePosition(anchor);
+        document.scrollingElement.scrollTop = anchorPosition.y - menuButton.offsetHeight;
+
+        closeMenu();
+    }
+
+    menuButton.onclick = toggleMenu;
+    menuItems.forEach(function(item) {
+        item.onclick = _onMenuItemClicked;
+    });
+
+})();
+
+</script>
+
+    </body>
+
+</html>

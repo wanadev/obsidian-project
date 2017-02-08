@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>Server Proxy - Obsidian Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+            <link rel="shortcut icon" type="image/png" href="images/obsidian-project-logo.svg" />
+        
+        
+            <link type="text/css" rel="stylesheet" href="style/gruvbox-dark.css" />
+        
+            <link type="text/css" rel="stylesheet" href="style/obsidian.css" />
+        
+    </head>
+
+    <body class=" page-with-nav">
+
+        <div class="page">
+
+            
+                <div id="toggle-mobile-menu" title="Toggle menu">☰</div>
+            
+
+            
+                <nav class="links">
+                    <ul>
+                        <li><a href="https://github.com/wanadev/obsidian-project">Github</a></li><li><a href="https://www.npmjs.com/package/obsidian-project">NPM</a></li>
+                    </ul>
+                </nav>
+            
+
+            <header>
+                <h1>
+                    
+                        <img src="images/obsidian-project-logo.svg"  alt="Obsidian Project logo" />
+                    
+                    <span>Obsidian Project</span>
+                </h1>
+            </header>
+
+            <div class="content">
+
+                
+                    <nav>
+                        
+                            
+
+    <ul class="menu">
+        
+            
+            <li>
+                <a href="index.html" >Home</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="main-concepts.html" >Main Concepts</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="project-manager.html" >Project Manager</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="structure.html" >Structures</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="history.html" >History (undo / redo)</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="proxy.html" class="active">Server Proxy</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="project-manager-api.html" >Project Manager Class API</a>
+                
+            </li>
+        
+    </ul>
+
+
+                        
+                    </nav>
+                
+                <article>
+                    <h1 id="server-proxy">Server Proxy</h1>
+<p>In order to download image or project from an URL, a server-side proxy is
+required to workaround <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> issues. To achieve that, Obsidian Project uses the
+<a href="https://github.com/wanadev/obsidian-http-request">Obsidian HTTP Request</a> library.</p>
+<p><strong>NOTE:</strong> This is required only if your project manager loads projects or
+images using methods like <code>.openFromUrl()</code> or <code>.addBlobFromUrl()</code> with URLs
+that do not share the <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy">same origin</a> that the application
+page.</p>
+<h2 id="server-side-example-">Server-Side Example:</h2>
+<p>To implement the server-side proxy you will need to use Node.js, the
+<a href="http://expressjs.com/">Express.js</a> framework and the <a href="https://www.npmjs.com/package/body-parser">body-parser</a> package:</p>
+<pre><code class="hljs javascript"><span class="hljs-meta">"use strict"</span>;
+
+<span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+<span class="hljs-keyword">var</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">"body-parser"</span>);
+<span class="hljs-keyword">var</span> proxyMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">"obsidian-http-request/server/http-proxy"</span>);
+
+<span class="hljs-keyword">var</span> PORT = process.env.PORT || <span class="hljs-number">3042</span>;
+
+<span class="hljs-keyword">var</span> app = express();
+
+app.use(<span class="hljs-string">"/proxy"</span>, bodyParser.raw({<span class="hljs-attr">type</span>: <span class="hljs-string">"application/json"</span>}));
+app.use(<span class="hljs-string">"/proxy"</span>, proxyMiddleware({
+    <span class="hljs-attr">maxContentLength</span>: <span class="hljs-number">5</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>,  <span class="hljs-comment">// Allows to transfer files of 5 MiB max</span>
+    allowedPorts: [<span class="hljs-number">80</span>, <span class="hljs-number">443</span>]             <span class="hljs-comment">// Allows to download from ports 80 (http) and 443 (https)</span>
+}));
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Starting Obsidian HTTP Request Proxy Server on 0.0.0.0:"</span> + PORT);
+app.listen(PORT);</code></pre>
+
+<p><strong>NOTE:</strong> The proxy <strong>MUST</strong> runs on the same origin (same domain, same port) as
+the application&#39;s HTML page.</p>
+
+                </article>
+            </div>
+
+            <footer>
+                Copyright (c)  2015-2017 Wanadev
+- <a href="http://www.wanadev.fr/">www.wanadev.fr</a><br />
+Unless otherwise specified, this documentation is published under the
+<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en">cc by-sa 3.0</a> license<br />
+Generated using <a href="https://wanadev.github.io/enlightme/\">Enlight'me</a> 0.1.1
+
+            </footer>
+
+        </div>
+
+        <script>
+
+(function() {
+
+    var MENU_UNFOLDED_CLASS = "mobile-menu-unfolded";
+
+    var menuButton = document.getElementById("toggle-mobile-menu");
+    var menuItems = document.querySelectorAll(".content nav a");
+
+    function getAbsolutePosition(element) {
+        if (typeof(element) == "string") {
+            element = document.getElementById(element);
+        }
+        if (!(element instanceof Element)) {
+            return {x: 0, y: 0};
+        }
+
+        var css;
+        var origElement = element;
+
+        try {
+            css = getComputedStyle(element);
+        } catch (e) {
+            return {x: 0, y: 0};
+        }
+
+        if (!css) {
+            return {x: 0, y: 0};
+        }
+
+        var x = -parseInt(css.borderLeftWidth);
+        var y = -parseInt(css.borderTopWidth);
+
+        while (element.offsetParent) {
+            css = getComputedStyle(element);
+
+            x += element.offsetLeft || 0;
+            x += parseInt(css.borderLeftWidth);
+
+            y += element.offsetTop || 0;
+            y += parseInt(css.borderTopWidth);
+
+            element = element.offsetParent;
+        }
+
+        element = origElement;
+
+        while (element.parentNode && !(element instanceof HTMLBodyElement)) {
+            x -= element.scrollLeft || 0;
+            y -= element.scrollTop || 0;
+            element = element.parentNode;
+        }
+
+        return {x: x, y: y};
+    };
+
+    function openMenu() {
+        document.body.classList.add(MENU_UNFOLDED_CLASS);
+    }
+
+    function closeMenu() {
+        document.body.classList.remove(MENU_UNFOLDED_CLASS);
+    }
+
+    function toggleMenu() {
+        document.body.classList.toggle(MENU_UNFOLDED_CLASS);
+    }
+
+    function _onMenuItemClicked(event) {
+        var href = this.getAttribute("href");
+
+        if (href[0] != "#") {
+            return;
+        }
+
+        event.preventDefault();
+
+        var anchor = href.substr(1, href.length-1);
+        var anchorPosition = getAbsolutePosition(anchor);
+        document.scrollingElement.scrollTop = anchorPosition.y - menuButton.offsetHeight;
+
+        closeMenu();
+    }
+
+    menuButton.onclick = toggleMenu;
+    menuItems.forEach(function(item) {
+        item.onclick = _onMenuItemClicked;
+    });
+
+})();
+
+</script>
+
+    </body>
+
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>History (undo / redo) - Obsidian Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+            <link rel="shortcut icon" type="image/png" href="images/obsidian-project-logo.svg" />
+        
+        
+            <link type="text/css" rel="stylesheet" href="style/gruvbox-dark.css" />
+        
+            <link type="text/css" rel="stylesheet" href="style/obsidian.css" />
+        
+    </head>
+
+    <body class=" page-with-nav">
+
+        <div class="page">
+
+            
+                <div id="toggle-mobile-menu" title="Toggle menu">☰</div>
+            
+
+            
+                <nav class="links">
+                    <ul>
+                        <li><a href="https://github.com/wanadev/obsidian-project">Github</a></li><li><a href="https://www.npmjs.com/package/obsidian-project">NPM</a></li>
+                    </ul>
+                </nav>
+            
+
+            <header>
+                <h1>
+                    
+                        <img src="images/obsidian-project-logo.svg"  alt="Obsidian Project logo" />
+                    
+                    <span>Obsidian Project</span>
+                </h1>
+            </header>
+
+            <div class="content">
+
+                
+                    <nav>
+                        
+                            
+
+    <ul class="menu">
+        
+            
+            <li>
+                <a href="index.html" >Home</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="main-concepts.html" >Main Concepts</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="project-manager.html" >Project Manager</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="structure.html" >Structures</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="history.html" class="active">History (undo / redo)</a>
+                
+                    
+
+    
+    <ul class="toc">
+        
+            <li>
+                <a href="#snapshots">Snapshots</a>
+                
+            </li>
+        
+            <li>
+                <a href="#navigating">Navigating</a>
+                
+            </li>
+        
+    </ul>
+
+
+
+                
+            </li>
+        
+            
+            <li>
+                <a href="proxy.html" >Server Proxy</a>
+                
+            </li>
+        
+            
+            <li>
+                <a href="project-manager-api.html" >Project Manager Class API</a>
+                
+            </li>
+        
+    </ul>
+
+
+                        
+                    </nav>
+                
+                <article>
+                    <h1 id="history-undo-redo-">History (undo / redo)</h1>
+<pre><code>obsidian-project/lib/history
+</code></pre><p><code>History</code> is a class that helps managing over-time changes of a project. Features:</p>
+<ul>
+<li>A run-time history binded to a specific project-manager.</li>
+<li>Take snapshots of the current state of a project.</li>
+<li>Go back and forth into the history.</li>
+<li>Changes are applied through a diff, so only properties that have changed are reset.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> History = <span class="hljs-built_in">require</span>(<span class="hljs-string">"obsidian-project/lib/history"</span>);
+
+<span class="hljs-keyword">var</span> history = <span class="hljs-keyword">new</span> History(project, {
+    <span class="hljs-attr">maxLength</span>: <span class="hljs-number">20</span>   <span class="hljs-comment">// How many snapshots at most (depth of the history stack)</span>
+});
+
+history.snapshot(); <span class="hljs-comment">// Save initial state of our project</span>
+
+<span class="hljs-comment">// Our project changes, we save this new state</span>
+project.addStructure(structure, <span class="hljs-string">"foo"</span>);
+structure.x = <span class="hljs-number">42</span>;
+history.snapshot();
+
+history.back();     <span class="hljs-comment">// Revert back to initial state (structure not in project)</span>
+history.forward();  <span class="hljs-comment">// Cancel revert (structure.x is now 42)</span></code></pre>
+
+
+<h2 id="snapshots">Snapshots</h2>
+<p>Taking snapshots is at the heart of the History. This is up to the developer to do a <code>history.snapshot()</code> whenever a significant change has occured across the project.</p>
+<pre><code class="hljs javascript">history.snapshot();
+history.clear();    <span class="hljs-comment">// Remove all stored snapshots</span></code></pre>
+
+<p><strong>NOTE:</strong> Project metadata are not saved into the snapshots. Blobs are only saved as references, and therefore any changes to their inner data are not stored.</p>
+<h2 id="navigating">Navigating</h2>
+<pre><code class="hljs javascript">history.back();
+history.forward();
+history.go(<span class="hljs-number">-3</span>);     <span class="hljs-comment">// Similar in result to three history.back() in a row</span>
+history.go(<span class="hljs-number">4</span>);      <span class="hljs-comment">// Similar in result to four history.forward() in a row</span></code></pre>
+                </article>
+            </div>
+
+            <footer>
+                Copyright (c)  2015-2017 Wanadev
+- <a href="http://www.wanadev.fr/">www.wanadev.fr</a><br />
+Unless otherwise specified, this documentation is published under the
+<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en">cc by-sa 3.0</a> license<br />
+Generated using <a href="https://wanadev.github.io/enlightme/\">Enlight'me</a> 0.1.1
+
+            </footer>
+
+        </div>
+
+        <script>
+
+(function() {
+
+    var MENU_UNFOLDED_CLASS = "mobile-menu-unfolded";
+
+    var menuButton = document.getElementById("toggle-mobile-menu");
+    var menuItems = document.querySelectorAll(".content nav a");
+
+    function getAbsolutePosition(element) {
+        if (typeof(element) == "string") {
+            element = document.getElementById(element);
+        }
+        if (!(element instanceof Element)) {
+            return {x: 0, y: 0};
+        }
+
+        var css;
+        var origElement = element;
+
+        try {
+            css = getComputedStyle(element);
+        } catch (e) {
+            return {x: 0, y: 0};
+        }
+
+        if (!css) {
+            return {x: 0, y: 0};
+        }
+
+        var x = -parseInt(css.borderLeftWidth);
+        var y = -parseInt(css.borderTopWidth);
+
+        while (element.offsetParent) {
+            css = getComputedStyle(element);
+
+            x += element.offsetLeft || 0;
+            x += parseInt(css.borderLeftWidth);
+
+            y += element.offsetTop || 0;
+            y += parseInt(css.borderTopWidth);
+
+            element = element.offsetParent;
+        }
+
+        element = origElement;
+
+        while (element.parentNode && !(element instanceof HTMLBodyElement)) {
+            x -= element.scrollLeft || 0;
+            y -= element.scrollTop || 0;
+            element = element.parentNode;
+        }
+
+        return {x: x, y: y};
+    };
+
+    function openMenu() {
+        document.body.classList.add(MENU_UNFOLDED_CLASS);
+    }
+
+    function closeMenu() {
+        document.body.classList.remove(MENU_UNFOLDED_CLASS);
+    }
+
+    function toggleMenu() {
+        document.body.classList.toggle(MENU_UNFOLDED_CLASS);
+    }
+
+    function _onMenuItemClicked(event) {
+        var href = this.getAttribute("href");
+
+        if (href[0] != "#") {
+            return;
+        }
+
+        event.preventDefault();
+
+        var anchor = href.substr(1, href.length-1);
+        var anchorPosition = getAbsolutePosition(anchor);
+        document.scrollingElement.scrollTop = anchorPosition.y - menuButton.offsetHeight;
+
+        closeMenu();
+    }
+
+    menuButton.onclick = toggleMenu;
+    menuItems.forEach(function(item) {
+        item.onclick = _onMenuItemClicked;
+    });
+
+})();
+
+</script>
+
+    </body>
+
+</html>
