@@ -286,12 +286,16 @@ describe("History", function() {
                 })
                 .then(function() {
                     history.snapshot();
+                    history.snapshot();
                 })
-                .then(loadImage.bind(undefined, url))
+                .then(function() {
+                    return loadImage(url);
+                })
                 .then(function() {
                     throw new Error("ShouldNotBeCalled_ValidURL");
                 })
                 .catch(function(e) {
+                    expect(e).to.be.an(Event);
                     expect(e).not.to.match(/ShouldNotBeCalled/);
                 });
         });
