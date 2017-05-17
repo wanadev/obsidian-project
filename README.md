@@ -1,5 +1,7 @@
 # Obsidian Project
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/wanadev/obsidian-project.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/wanadev/obsidian-project.svg?branch=master)](https://travis-ci.org/wanadev/obsidian-project)
 [![NPM Version](http://img.shields.io/npm/v/obsidian-project.svg?style=flat)](https://www.npmjs.com/package/obsidian-project)
 [![License](http://img.shields.io/npm/l/obsidian-project.svg?style=flat)](https://github.com/wanadev/obsidian-project/blob/master/LICENSE)
