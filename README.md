@@ -5,6 +5,7 @@
 [![License](http://img.shields.io/npm/l/obsidian-project.svg?style=flat)](https://github.com/wanadev/obsidian-project/blob/master/LICENSE)
 [![Dependencies](https://img.shields.io/david/wanadev/obsidian-project.svg?maxAge=2592000)]()
 [![Dev Dependencies](https://img.shields.io/david/dev/wanadev/obsidian-project.svg?maxAge=2592000)]()
+[![Greenkeeper badge](https://badges.greenkeeper.io/wanadev/obsidian-project.svg)](https://greenkeeper.io/)
 
 
 Documentation:
