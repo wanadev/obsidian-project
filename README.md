@@ -15,6 +15,7 @@ Documentation:
 
 ## Changelog
 
+* **3.1.4:** Fixes obsidian-file options never forwarded on save (#31)
 * **3.1.3:** Fixes issue with Obsidian HTTP Request >= 1.2.0 (#29)
 * **3.1.2:** Fixes history crashes when freeing old blobs (#26)
 * **3.1.1:** Allows unserialization error handler to return a "repaired" structure
