@@ -53,7 +53,7 @@ function runPerfTest() {
     }
 
     for (i = 0 ; i < NB_BLOBS ; i++) {
-        project.addBlobFromBuffer(new Buffer(BLOB_SIZE));
+        project.addBlobFromBuffer(Buffer.alloc(BLOB_SIZE));
     }
 
     console.time("serialization");

@@ -340,7 +340,7 @@ describe("ProjectManager", function() {
 
             var reader = new FileReader();
             reader.onload = function(event) {
-                var b = new Buffer(event.target.result);
+                var b = Buffer.from(event.target.result);
                 expect(ObsidianProjectFile.isObsidianProjectFile(b)).to.be.ok();
                 expect(b.toString()).to.equal(buffer.toString());
                 done();
