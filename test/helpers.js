@@ -10,7 +10,7 @@ describe("helpers", function() {
     describe("createBlob", function() {
 
         it("is able to create a blob from given params", function() {
-            var buffer = new Buffer(42);
+            var buffer = Buffer.alloc(42);
             var blob = helpers.createBlob([buffer], {type: "application/octet-stream"});
             expect(blob).to.be.a(Blob);
             expect(blob.type).to.equal("application/octet-stream");
