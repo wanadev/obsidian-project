@@ -286,8 +286,9 @@ describe("History", function() {
                 })
                 .then(function() {
                     history.snapshot();
-                    history.snapshot();
                 })
+                // The `revokeObjectURL` can take some time, so our test needs to wait
+                .delay(100)
                 .then(function() {
                     return loadImage(url);
                 })
@@ -312,7 +313,11 @@ describe("History", function() {
                 .then(function() {
                     project.removeBlob(id);
                 })
-                .then(loadImage.bind(undefined, url))
+                // The `revokeObjectURL` can take some time, so our test needs to wait
+                .delay(100)
+                .then(function() {
+                    return loadImage(url);
+                })
                 .then(function() {
                     throw new Error("ShouldNotBeCalled_ValidURL");
                 })
