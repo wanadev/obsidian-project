@@ -47,7 +47,6 @@ function loadImage(url) {
         image.onload = resolve.bind(undefined, image);
         image.onerror = reject;
         image.src = url;
-        return image;
     });
 }
 
