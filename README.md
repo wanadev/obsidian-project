@@ -15,6 +15,7 @@ Documentation:
 
 ## Changelog
 
+* **4.0.0:** Updates abitbol-serializable to 2.0.0
 * **3.2.0:** Adds history function to apply currently pointed snapshot and fixes tests
 * **3.1.4:** Fixes obsidian-file options never forwarded on save (#31)
 * **3.1.3:** Fixes issue with Obsidian HTTP Request >= 1.2.0 (#29)
