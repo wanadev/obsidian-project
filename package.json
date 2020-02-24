@@ -26,7 +26,7 @@
         "q": "^1.5.1",
         "request": "^2.85.0",
         "semver": "^5.5.0",
-        "uuid": "^3.2.1"
+        "uuid": "^7.0.0"
     },
     "devDependencies": {
         "body-parser": "^1.18.2",
