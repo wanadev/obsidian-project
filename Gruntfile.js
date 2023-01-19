@@ -18,14 +18,6 @@ module.exports = function(grunt) {
             }
         },
 
-        mocha_phantomjs: {
-            all: {
-                options: {
-                    urls: ["http://localhost:3000/"]
-                }
-            }
-        },
-
         jshint: {
             all: ["lib/*.js", "bin/*"],
             options: {
@@ -39,16 +31,24 @@ module.exports = function(grunt) {
             },
             serverStop: {
                 command: "npm stop"
-            }
+            },
+            runTestBrowser: {
+                command: "xdg-open http://localhost:3000/ && sleep 5"
+            },
         }
     });
 
     grunt.loadNpmTasks("grunt-browserify");
-    grunt.loadNpmTasks("grunt-mocha-phantomjs");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-shell");
 
     grunt.registerTask("default", ["test"]);
-    grunt.registerTask("test", "Run tests in a web browser", ["jshint", "browserify:test", "shell:serverStart", "mocha_phantomjs", "shell:serverStop"]);
+    grunt.registerTask("test", "Run tests in a web browser", [
+        "jshint",
+        "browserify:test",
+        "shell:serverStart",
+        "shell:runTestBrowser",
+        "shell:serverStop",
+    ]);
 
 };
