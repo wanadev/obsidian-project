@@ -18,6 +18,7 @@ Documentation:
 * **[NEXT]** (changes on master but not released yet):
 
   * Fixed addStructure method (@elektree, #47)
+  * Updated dependencies (@flozz)
 
 * **4.0.0:** Updates abitbol-serializable to 2.0.0
 * **3.2.0:** Adds history function to apply currently pointed snapshot and fixes tests
