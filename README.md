@@ -1,11 +1,7 @@
 # Obsidian Project
 
-[![Build Status](https://travis-ci.org/wanadev/obsidian-project.svg?branch=master)](https://travis-ci.org/wanadev/obsidian-project)
 [![NPM Version](http://img.shields.io/npm/v/obsidian-project.svg?style=flat)](https://www.npmjs.com/package/obsidian-project)
 [![License](http://img.shields.io/npm/l/obsidian-project.svg?style=flat)](https://github.com/wanadev/obsidian-project/blob/master/LICENSE)
-[![Dependencies](https://img.shields.io/david/wanadev/obsidian-project.svg?maxAge=2592000)]()
-[![Dev Dependencies](https://img.shields.io/david/dev/wanadev/obsidian-project.svg?maxAge=2592000)]()
-[![Greenkeeper badge](https://badges.greenkeeper.io/wanadev/obsidian-project.svg)](https://greenkeeper.io/)
 
 
 Documentation:
@@ -18,6 +14,7 @@ Documentation:
 * **[NEXT]** (changes on master but not released yet):
 
   * Fixed addStructure method (@elektree, #47)
+  * Updated dependencies (@flozz)
 
 * **4.0.0:** Updates abitbol-serializable to 2.0.0
 * **3.2.0:** Adds history function to apply currently pointed snapshot and fixes tests
