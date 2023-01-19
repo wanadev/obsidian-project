@@ -6,3 +6,5 @@ test
 .travis.yml
 Gruntfile.js
 doc.generated
+RELEASE.rst
+.github

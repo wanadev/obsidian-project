@@ -13,6 +13,10 @@ Documentation:
 
 * **[NEXT]** (changes on master but not released yet):
 
+  * Norhing yet ;)
+
+* **v5.0.0:**
+
   * Fixed addStructure method (@elektree, #47)
   * Updated dependencies (@flozz)
 
