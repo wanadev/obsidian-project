@@ -24,7 +24,6 @@
         "obsidian-file": "^3.0.1",
         "obsidian-http-request": "^1.5.0",
         "q": "^1.5.1",
-        "request": "^2.85.0",
         "semver": "^7.3.8",
         "uuid": "^9.0.0"
     },
@@ -39,6 +38,7 @@
         "grunt-contrib-jshint": "^3.2.0",
         "grunt-shell": "^4.0.0",
         "pm2": "^5.2.2",
+        "request": "^2.88.2",
         "serve-static": "^1.15.0"
     },
     "enlightme": {
