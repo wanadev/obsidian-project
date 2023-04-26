@@ -23,7 +23,7 @@
         "obsidian-file": "^3.0.1",
         "obsidian-http-request": "^1.5.0",
         "q": "^1.5.1",
-        "semver": "^7.3.8",
+        "semver": "^7.5.0",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
