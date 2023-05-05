@@ -16,7 +16,7 @@ app.use("/proxy", proxyMiddleware({
 }));
 
 app.use("/files/", serveStatic(__dirname + "/static"));
-app.use("/", serveStatic(__dirname + "/../browser/"));
+app.use("/", serveStatic(__dirname + "/../../build/test/browser/"));
 
 console.log("Starting Obsidian Project Proxy Test Server on 0.0.0.0:" + PORT);  // jshint ignore:line
 app.listen(PORT);
