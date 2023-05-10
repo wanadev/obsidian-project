@@ -20,7 +20,7 @@
     ],
     "dependencies": {
         "abitbol-serializable": "^2.0.1",
-        "obsidian-file": "^3.0.1",
+        "obsidian-file": "^3.0.2",
         "obsidian-http-request": "^1.5.1",
         "q": "^1.5.1",
         "semver": "^7.5.0",
