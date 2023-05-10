@@ -30,3 +30,7 @@ jobs:
       - name: "Lint"
         run: |
           npx grunt jshint
+
+      - name: "Test"
+        run: |
+          npm run test
