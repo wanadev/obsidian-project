@@ -102,28 +102,28 @@
     <ul class="toc">
         
             <li>
-                <a href="#project-newemptyproject-metadata-">project.newEmptyProject(metadata)</a>
+                <a href="#projectnewemptyprojectmetadata">project.newEmptyProject(metadata)</a>
                 
             </li>
         
             <li>
-                <a href="#project-saveas-lt-type-gt-">project.saveAs&lt;TYPE&gt;()</a>
+                <a href="#projectsaveastype">project.saveAs<TYPE>()</a>
                 
             </li>
         
             <li>
-                <a href="#project-openfrom-lt-type-gt-">project.openFrom&lt;TYPE&gt;(...)</a>
+                <a href="#projectopenfromtype">project.openFrom<TYPE>(...)</a>
                 
                     
     <ul class="toc">
         
             <li>
-                <a href="#1-project-openfromblob-blob-callback-">1. project.openFromBlob(blob, callback)</a>
+                <a href="#1-projectopenfromblobblob-callback">1. project.openFromBlob(blob, callback)</a>
                 
             </li>
         
             <li>
-                <a href="#2-project-openfromurl-url-">2. project.openFromUrl(url)</a>
+                <a href="#2-projectopenfromurlurl">2. project.openFromUrl(url)</a>
                 
             </li>
         
@@ -144,37 +144,37 @@
     <ul class="toc">
         
             <li>
-                <a href="#project-addstructure-structure-layername-">project.addStructure(structure, layerName)</a>
+                <a href="#projectaddstructurestructure-layername">project.addStructure(structure, layerName)</a>
                 
             </li>
         
             <li>
-                <a href="#project-removestructure-">project.removeStructure(...)</a>
+                <a href="#projectremovestructure">project.removeStructure(...)</a>
                 
             </li>
         
             <li>
-                <a href="#project-setstructurelayer-layername-">project.setStructureLayer(..., layerName)</a>
+                <a href="#projectsetstructurelayer-layername">project.setStructureLayer(..., layerName)</a>
                 
             </li>
         
             <li>
-                <a href="#project-movestructure-layername-">project.moveStructure(..., layerName)</a>
+                <a href="#projectmovestructure-layername">project.moveStructure(..., layerName)</a>
                 
             </li>
         
             <li>
-                <a href="#project-movestructure-layername-">project.moveStructure(..., layerName)</a>
+                <a href="#projectmovestructure-layername-1">project.moveStructure(..., layerName)</a>
                 
             </li>
         
             <li>
-                <a href="#project-addlayers-">project.addLayers(...;</a>
+                <a href="#projectaddlayers">project.addLayers(...;</a>
                 
             </li>
         
             <li>
-                <a href="#project-removelayers-">project.removeLayers(...);</a>
+                <a href="#projectremovelayers">project.removeLayers(...);</a>
                 
             </li>
         
@@ -190,18 +190,18 @@
     <ul class="toc">
         
             <li>
-                <a href="#project-addblob-">project.addBlob(...)</a>
+                <a href="#projectaddblob">project.addBlob(...)</a>
                 
                     
     <ul class="toc">
         
             <li>
-                <a href="#1-project-addblob-blob-options-callback-">1. project.addBlob(blob, options, callback)</a>
+                <a href="#1-projectaddblobblob-options-callback">1. project.addBlob(blob, options, callback)</a>
                 
             </li>
         
             <li>
-                <a href="#2-project-addblobfromurl-url-options-callback-">2. project.addBlobFromUrl(url, options, callback)</a>
+                <a href="#2-projectaddblobfromurlurl-options-callback">2. project.addBlobFromUrl(url, options, callback)</a>
                 
             </li>
         
@@ -211,18 +211,18 @@
             </li>
         
             <li>
-                <a href="#project-removeblob-id-">project.removeBlob(id)</a>
+                <a href="#projectremoveblobid">project.removeBlob(id)</a>
                 
             </li>
         
             <li>
-                <a href="#project-getblob-id-">project.getBlob(id, ...)</a>
+                <a href="#projectgetblobid-">project.getBlob(id, ...)</a>
                 
                     
     <ul class="toc">
         
             <li>
-                <a href="#1-project-getblobasimage-id-callback-">1. project.getBlobAsImage(id, callback)</a>
+                <a href="#1-projectgetblobasimageid-callback">1. project.getBlobAsImage(id, callback)</a>
                 
             </li>
         
@@ -232,7 +232,7 @@
             </li>
         
             <li>
-                <a href="#project-getbloblist-">project.getBlobList()</a>
+                <a href="#projectgetbloblist">project.getBlobList()</a>
                 
             </li>
         
@@ -248,7 +248,7 @@
     <ul class="toc">
         
             <li>
-                <a href="#addversionfilter-sourcesemver-targetversion-convert-">addVersionFilter(sourceSemver, targetVersion, convert)</a>
+                <a href="#addversionfiltersourcesemver-targetversion-convert">addVersionFilter(sourceSemver, targetVersion, convert)</a>
                 
             </li>
         
@@ -276,22 +276,22 @@
 <span class="hljs-keyword">var</span> project = <span class="hljs-keyword">new</span> ProjectManager();</code></pre>
 
 <h2 id="project-management">Project Management</h2>
-<h3 id="project-newemptyproject-metadata-">project.newEmptyProject(metadata)</h3>
+<h3 id="projectnewemptyprojectmetadata">project.newEmptyProject(metadata)</h3>
 <p>Create a new project. The metadata are optional.</p>
 <p><strong>NOTE:</strong> When you instantiate the <code>ProjectManager</code> class, it already contains an empty project.</p>
-<h3 id="project-saveas-lt-type-gt-">project.saveAs&lt;TYPE&gt;()</h3>
+<h3 id="projectsaveastype">project.saveAs&lt;TYPE&gt;()</h3>
 <pre><code class="hljs javascript">project.saveAsBuffer();     <span class="hljs-comment">// -&gt; Buffer</span>
 project.saveAsBlob();       <span class="hljs-comment">// -&gt; Blob</span>
 project.saveAsData64Url();  <span class="hljs-comment">// -&gt; String</span></code></pre>
 
 
-<h3 id="project-openfrom-lt-type-gt-">project.openFrom&lt;TYPE&gt;(...)</h3>
+<h3 id="projectopenfromtype">project.openFrom&lt;TYPE&gt;(...)</h3>
 <pre><code class="hljs javascript">project.openFromBuffer(buffer);
 project.openFromBlob(blob, callback);   <span class="hljs-comment">// ASYNC // Promise, read 1. below</span>
 project.openFromData64Url(data64);
 project.openFromUrl(url, callback);     <span class="hljs-comment">// ASYNC // PROXY, read 2. below</span></code></pre>
 
-<h4 id="1-project-openfromblob-blob-callback-">1. project.openFromBlob(blob, callback)</h4>
+<h4 id="1-projectopenfromblobblob-callback">1. project.openFromBlob(blob, callback)</h4>
 <p>Using a Node callback:</p>
 <pre><code class="hljs javascript">project.openFromBlob(blob, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>) </span>{
     <span class="hljs-keyword">if</span> (error) {
@@ -310,7 +310,7 @@ project.openFromUrl(url, callback);     <span class="hljs-comment">// ASYNC // P
         <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Something went wrong..."</span>, error);
     });</code></pre>
 
-<h4 id="2-project-openfromurl-url-">2. project.openFromUrl(url)</h4>
+<h4 id="2-projectopenfromurlurl">2. project.openFromUrl(url)</h4>
 <p><strong>NOTE:</strong> This method require a server-side proxy to work, read <code>proxy.md</code> for more informations.</p>
 <p>Using a Node callback:</p>
 <pre><code class="hljs javascript">project.openFromUrl(<span class="hljs-string">"http://example.com/project.wprj"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>) </span>{
@@ -332,16 +332,16 @@ project.openFromUrl(url, callback);     <span class="hljs-comment">// ASYNC // P
 
 
 <h2 id="structures-and-layers">Structures And Layers</h2>
-<h3 id="project-addstructure-structure-layername-">project.addStructure(structure, layerName)</h3>
+<h3 id="projectaddstructurestructure-layername">project.addStructure(structure, layerName)</h3>
 <ul>
 <li><code>structure</code> is an instance of a class inherited from <code>Structure</code> (that is itself inherited from <code>SerializableCalss</code>).</li>
 <li><code>layerName</code> is the name of the layer on which the structure will be added.<ul>
-<li>This parameter is <strong>optional</strong>. If it is not provided, the structure will be added to a layer called <code>"default"</code>.</li>
+<li>This parameter is <strong>optional</strong>. If it is not provided, the structure will be added to a layer called <code>&quot;default&quot;</code>.</li>
 <li>If the given <code>layerName</code> does not match an existing layer, a new layer will be automatically created.</li>
 </ul>
 </li>
 </ul>
-<h3 id="project-removestructure-">project.removeStructure(...)</h3>
+<h3 id="projectremovestructure">project.removeStructure(...)</h3>
 <pre><code class="hljs javascript">project.removeStructure(structure);    <span class="hljs-comment">// Instance of Structure</span>
 project.removeStructure(structureId);  <span class="hljs-comment">// Structure id as String</span></code></pre>
 
@@ -349,15 +349,15 @@ project.removeStructure(structureId);  <span class="hljs-comment">// Structure i
 <strong>will not</strong> destroy it (it does not call the <code>structure.destroy()</code> method.
 If you want to destroy the structure, just call the <code>structure.destroy()</code>
 method, this will automatically detach the structure from the parent project.</p>
-<h3 id="project-setstructurelayer-layername-">project.setStructureLayer(..., layerName)</h3>
+<h3 id="projectsetstructurelayer-layername">project.setStructureLayer(..., layerName)</h3>
 <pre><code class="hljs javascript">project.setStructureLayer(structure, layerName);
 project.setStructureLayer(structureID, layerName);</code></pre>
 
 <p>The structure will be added to the end of the new layer, or not moved at all if the structure is already on the target layer.</p>
 <ul>
-<li><code>layerName</code> is <strong>optional</strong>. If it is not provided, the structure will be moved to a layer called <code>"default"</code>.</li>
+<li><code>layerName</code> is <strong>optional</strong>. If it is not provided, the structure will be moved to a layer called <code>&quot;default&quot;</code>.</li>
 </ul>
-<h3 id="project-movestructure-layername-">project.moveStructure(..., layerName)</h3>
+<h3 id="projectmovestructure-layername">project.moveStructure(..., layerName)</h3>
 <p>Change the index of the structure in its current layer relatively to its current index.</p>
 <pre><code class="hljs javascript">project.moveStructure(structure, delta);
 project.moveStructure(structureID, delta);</code></pre>
@@ -365,33 +365,33 @@ project.moveStructure(structureID, delta);</code></pre>
 <ul>
 <li><code>delta</code> is a relative number. Using a negative number moves the structure closer to the front of its current layer.</li>
 </ul>
-<h3 id="project-movestructure-layername-">project.moveStructure(..., layerName)</h3>
+<h3 id="projectmovestructure-layername-1">project.moveStructure(..., layerName)</h3>
 <p>The absolute version of <code>moveStructure</code>. Passing a negative <code>index</code> means from the end of the layer. <code>-1</code> being the last index.</p>
 <pre><code class="hljs javascript">project.setStructureIndex(structure, index);
 project.setStructureIndex(structureID, index);</code></pre>
 
-<p><strong>NOTE:</strong> For all these functions, the layer is certified not to be left with holes. This means that moving a structure to an index bigger than the current layer's size will result in the structure being moved to the end of it.</p>
-<h3 id="project-addlayers-">project.addLayers(...;</h3>
+<p><strong>NOTE:</strong> For all these functions, the layer is certified not to be left with holes. This means that moving a structure to an index bigger than the current layer&#39;s size will result in the structure being moved to the end of it.</p>
+<h3 id="projectaddlayers">project.addLayers(...;</h3>
 <p>Layers are automatically added when you add a structure to an unexisting layer, but you can also add them manually.</p>
 <pre><code class="hljs javascript">project.addLayers(<span class="hljs-string">"layer1"</span>);
 project.addLayers(<span class="hljs-string">"layer1"</span>, <span class="hljs-string">"layer2"</span>, ...);
 project.addLayers([<span class="hljs-string">"layer1"</span>, <span class="hljs-string">"layer2"</span>, ...]);</code></pre>
 
-<h3 id="project-removelayers-">project.removeLayers(...);</h3>
+<h3 id="projectremovelayers">project.removeLayers(...);</h3>
 <pre><code class="hljs javascript">project.removeLayers(<span class="hljs-string">"layer1"</span>);
 project.removeLayers(<span class="hljs-string">"layer1"</span>, <span class="hljs-string">"layer2"</span>, ...);
 project.removeLayers([<span class="hljs-string">"layer1"</span>, <span class="hljs-string">"layer2"</span>, ...]);</code></pre>
 
 <p><strong>NOTE:</strong> This will remove and <strong>destroy</strong> (<code>structure.destroy()</code>) all the structures contained in the layer!</p>
 <h2 id="blobs">Blobs</h2>
-<h3 id="project-addblob-">project.addBlob(...)</h3>
+<h3 id="projectaddblob">project.addBlob(...)</h3>
 <pre><code class="hljs javascript">project.addBlobFromBuffer(buffer, options)       <span class="hljs-comment">// -&gt; id: String</span>
 project.addBlob(blob, options, callback)         <span class="hljs-comment">// ASYNC, read 1.</span>
 project.addBlobFromData64Url(data64, options)    <span class="hljs-comment">// -&gt; id: String</span>
 project.addBlobFromImage(image, options)         <span class="hljs-comment">// -&gt; id: String</span>
 project.addBlobFromUrl(url, options, callback)   <span class="hljs-comment">// ASYNC // PROXY, read 2.</span></code></pre>
 
-<h4 id="1-project-addblob-blob-options-callback-">1. project.addBlob(blob, options, callback)</h4>
+<h4 id="1-projectaddblobblob-options-callback">1. project.addBlob(blob, options, callback)</h4>
 <p>Using a Node callback:</p>
 <pre><code class="hljs javascript">project.addBlob(blob, {}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error, id</span>) </span>{
     <span class="hljs-keyword">if</span> (error) {
@@ -410,7 +410,7 @@ project.addBlobFromUrl(url, options, callback)   <span class="hljs-comment">// A
         <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Something went wrong..."</span>, error);
     });</code></pre>
 
-<h4 id="2-project-addblobfromurl-url-options-callback-">2. project.addBlobFromUrl(url, options, callback)</h4>
+<h4 id="2-projectaddblobfromurlurl-options-callback">2. project.addBlobFromUrl(url, options, callback)</h4>
 <p><strong>NOTE:</strong> This method require a server-side proxy to work, read <code>proxy.md</code> for more informations.</p>
 <p>Using a Node callback:</p>
 <pre><code class="hljs javascript">project.addBlobFromUrl(<span class="hljs-string">"http://example.com/image.png"</span>, {}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error, id</span>) </span>{
@@ -430,9 +430,9 @@ project.addBlobFromUrl(url, options, callback)   <span class="hljs-comment">// A
         <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Something went wrong..."</span>, error);
     });</code></pre>
 
-<h3 id="project-removeblob-id-">project.removeBlob(id)</h3>
+<h3 id="projectremoveblobid">project.removeBlob(id)</h3>
 <p>Removes a blob from the project.</p>
-<h3 id="project-getblob-id-">project.getBlob(id, ...)</h3>
+<h3 id="projectgetblobid-">project.getBlob(id, ...)</h3>
 <p>Get the blob from its id.</p>
 <pre><code class="hljs javascript">project.getBlobAsBuffer(id)            <span class="hljs-comment">// -&gt; Buffer</span>
 project.getBlob(id)                    <span class="hljs-comment">// -&gt; Blob</span>
@@ -440,7 +440,7 @@ project.getBlobAsData64Url(id)         <span class="hljs-comment">// -&gt; Strin
 project.getBlobUrl(id)                 <span class="hljs-comment">// -&gt; String</span>
 project.getBlobAsImage(id, callback)   <span class="hljs-comment">// ASYNC // Promise, read 1.</span></code></pre>
 
-<h4 id="1-project-getblobasimage-id-callback-">1. project.getBlobAsImage(id, callback)</h4>
+<h4 id="1-projectgetblobasimageid-callback">1. project.getBlobAsImage(id, callback)</h4>
 <p>Using a Node callback:</p>
 <pre><code class="hljs javascript">project.getBlobAsImage(<span class="hljs-string">"blobId"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error, image</span>) </span>{
     <span class="hljs-keyword">if</span> (error) {
@@ -460,10 +460,10 @@ project.getBlobAsImage(id, callback)   <span class="hljs-comment">// ASYNC // Pr
     });</code></pre>
 
 
-<h3 id="project-getbloblist-">project.getBlobList()</h3>
+<h3 id="projectgetbloblist">project.getBlobList()</h3>
 <p>Get the list of all the blobs attached to the project.</p>
 <h2 id="versioning">Versioning</h2>
-<h3 id="addversionfilter-sourcesemver-targetversion-convert-">addVersionFilter(sourceSemver, targetVersion, convert)</h3>
+<h3 id="addversionfiltersourcesemver-targetversion-convert">addVersionFilter(sourceSemver, targetVersion, convert)</h3>
 <ul>
 <li><code>sourceSemver</code> a <a href="https://github.com/npm/node-semver">semver</a> string.</li>
 <li><code>targetVersion</code> the resulting version after the conversion.</li>
@@ -478,11 +478,11 @@ project.getBlobAsImage(id, callback)   <span class="hljs-comment">// ASYNC // Pr
             </div>
 
             <footer>
-                Copyright (c)  2015-2017 Wanadev
+                Copyright (c)  2015-2023 Wanadev
 - <a href="http://www.wanadev.fr/">www.wanadev.fr</a><br />
 Unless otherwise specified, this documentation is published under the
 <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en">cc by-sa 3.0</a> license<br />
-Generated using <a href="https://wanadev.github.io/enlightme/\">Enlight'me</a> 0.1.1
+Generated using <a href="https://wanadev.github.io/enlightme/\">Enlight'me</a> 0.2.0
 
             </footer>
 
