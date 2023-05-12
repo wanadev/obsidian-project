@@ -9,7 +9,6 @@ This file is a memo for the maintainer.
 
 * Check Copyright years in the LICENSE file
 * Check there will be no trash in the package (``npm pack``)
-* Check tests passes (``npx grunt`` and check the result in the browser)
 
 
 1. Release
