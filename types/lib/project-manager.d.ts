@@ -1,7 +1,7 @@
 import SerializableClass from "abitbol-serializable";
 import type { Structure } from "./structure";
 
-interface WprjOptions {
+export interface WprjOptions {
     type: string
     metadataFormat: string
     projectFormat: string
