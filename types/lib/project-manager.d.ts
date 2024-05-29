@@ -8,10 +8,18 @@ export interface WprjOptions {
     blobIndexFormat: string
 }
 
+export interface ProjectManagerOptions {
+    mimetype?: string;
+    fileExt?: string;
+    metadata?: Record<string, unknown>;
+    wprjOptions?: WprjOptions;
+    version?: string;
+}
+
 export class ProjectManager extends SerializableClass {
     __name__: "Project";
 
-    __init__(params: unknown): void;
+    __init__(params?: ProjectManagerOptions): void;
 
     /**
      * The version of the project.
