@@ -1,8 +1,9 @@
 import Class from "abitbol";
+import { ProjectManager } from "./project-manager";
 
 export class History extends Class {
 
-    __init__(pm: any, params: any): void;
+    __init__(pm: ProjectManager, params?: { maxLength?: number }): void;
 
     destroy(): void;
 
