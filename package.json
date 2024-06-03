@@ -3,6 +3,10 @@
     "version": "5.0.1",
     "description": "Library to manage Wanadev's obsidian projects",
     "main": "lib/index.js",
+    "types": "types/index.d.ts",
+    "typesVersions": {
+      "*": { "lib/*": ["types/lib/*"] }
+    },
     "scripts": {
         "test": "./node_modules/.bin/grunt test",
         "start": "pm2 start -f test/server/server.js --name=obsidian-proxy-server-test --watch && sleep 1",
