@@ -56,6 +56,10 @@ Tu run tests, use the following command:
 
   * Nothing yet ;)
 
+* **v5.0.2:**
+
+  * feat: Added TypeScript type declaration for Structure, History and ProjectManager (@Pduhard, #55)
+
 * **v5.0.1:**
 
   * Updated dependencies (@jbghoul, #54)

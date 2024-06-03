@@ -1,6 +1,6 @@
 {
     "name": "obsidian-project",
-    "version": "5.0.1",
+    "version": "5.0.2",
     "description": "Library to manage Wanadev's obsidian projects",
     "main": "lib/index.js",
     "types": "types/index.d.ts",
