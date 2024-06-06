@@ -17,7 +17,7 @@ export interface ProjectManagerOptions {
 }
 
 export class ProjectManager extends SerializableClass {
-    __name__: "Project";
+    __name__: string;
 
     __init__(params?: ProjectManagerOptions): void;
 
