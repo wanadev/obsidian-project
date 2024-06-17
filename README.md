@@ -56,6 +56,10 @@ Tu run tests, use the following command:
 
   * Nothing yet ;)
 
+* **v5.0.3:**
+
+  * fix: Fixed TypeScript type definition for ProjectManager (@Pduhard, #56)
+
 * **v5.0.2:**
 
   * feat: Added TypeScript type declaration for Structure, History and ProjectManager (@Pduhard, #55)
