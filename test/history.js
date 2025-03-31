@@ -2,8 +2,6 @@
 
 var expect = require("expect.js");
 var httpRequest = require("obsidian-http-request");
-var Q = require("q");
-
 var History = require("../lib/history.js");
 var ProjectManager = require("../lib/project-manager.js");
 var Structure = require("../lib/structure.js");
@@ -42,7 +40,7 @@ imageData64 += "8LEg0LF8qDZQAAAAA9SURBVAgdDcHBDQAhDAPBLQfRD/2c8opcBfILpcrzDCeY4P
 imageData64 += "VbhUuC+sJ3zITTFB6Q+sNpbXpblFamwlO/JFNIn9yzLB/AAAAAElFTkSuQmCC";
 
 function loadImage(url) {
-    return Q.Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var image = new Image();
         image.onload = resolve.bind(undefined, image);
         image.onerror = reject;
