@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                 command: "xdg-open http://localhost:3000/ && sleep 5"
             },
             mocha_headless_chrome: {
-                command: "npx mocha-headless-chrome -f http://localhost:3000/",
+                command: "npx mocha-headless-chrome -f http://localhost:3000/ -a no-sandbox",
             }
         }
     });
