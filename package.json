@@ -34,7 +34,7 @@
         "uuid": "^9.0.0"
     },
     "devDependencies": {
-        "body-parser": "^1.20.2",
+        "body-parser": "^2.2.0",
         "enlightme": "^0.2.0",
         "expect.js": "^0.3.1",
         "express": "^4.18.2",
