@@ -56,6 +56,10 @@ Tu run tests, use the following command:
 
   * Nothing yet ;)
 
+* **v5.1.0:**
+
+  * feat: Replaced the deprecated Q library by native Promises (@jbghoul, #58, #59)
+
 * **v5.0.3:**
 
   * fix: Fixed TypeScript type definition for ProjectManager (@Pduhard, #56)
