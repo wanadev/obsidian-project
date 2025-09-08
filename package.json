@@ -31,7 +31,7 @@
         "obsidian-file": "^3.0.3",
         "obsidian-http-request": "^1.6.0",
         "semver": "^7.5.0",
-        "uuid": "^9.0.0"
+        "uuid": "^13.0.0"
     },
     "devDependencies": {
         "body-parser": "^2.2.0",
