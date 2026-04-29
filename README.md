@@ -56,6 +56,10 @@ Tu run tests, use the following command:
 
   * Nothing yet ;)
 
+* **v5.2.0:**
+
+  * feat: Replaced uuid dependency by browser's secure implementation (@av-wanadev, #101)
+
 * **v5.1.0:**
 
   * feat: Replaced the deprecated Q library by native Promises (@jbghoul, #58, #59)
