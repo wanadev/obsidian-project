@@ -30,8 +30,7 @@
         "abitbol-serializable": "^2.0.1",
         "obsidian-file": "^3.0.3",
         "obsidian-http-request": "^1.6.0",
-        "semver": "^7.5.0",
-        "uuid": "^9.0.0"
+        "semver": "^7.5.0"
     },
     "devDependencies": {
         "body-parser": "^2.2.0",
